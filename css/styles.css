@@ -223,8 +223,6 @@ textarea {
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 40%),
     radial-gradient(circle at bottom right, rgba(201, 160, 121, 0.16), transparent 20%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 235, 221, 0.95));
-  border-radius: calc(var(--radius-lg) * 1.2);
-  box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
 }
