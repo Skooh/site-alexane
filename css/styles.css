@@ -100,7 +100,6 @@ textarea {
   gap: 24px;
   padding: 18px 32px;
   background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(223, 208, 187, 0.85);
   border-radius: calc(var(--radius-lg) * 1.1);
   margin: 24px auto;
   max-width: 1440px;
