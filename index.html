@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alexane Thomas — Ostéopathe animalier à Bayonne</title>
+    <meta name="description" content="Ostéopathe animalier diplômée, consultations à domicile et en écurie autour de Bayonne, Biarritz et Anglet pour chevaux, bovins, chiens, chats et NAC." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Icon sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+      <symbol id="icon-pin" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.6V12l3 2.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24" fill="none"><path d="M12 3.5 5 6v5.6c0 4.6 3 7.9 7 9.4 4-1.5 7-4.8 7-9.4V6l-7-2.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12.2l2 2 4-4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none"><rect x="4" y="5.5" width="16" height="14.5" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9.8h16M8 3.5v3.6M16 3.5v3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 13.6l2 2 4.2-4.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24" fill="none"><path d="M6.5 4h3l1.4 4.2-2 1.6a12 12 0 0 0 5.3 5.3l1.6-2 4.2 1.4v3a2 2 0 0 1-2.2 2C11 18.7 5.3 13 4.5 6.2A2 2 0 0 1 6.5 4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 6.5 12 12.5l7.5-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9.5 12 15l6-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-hand" viewBox="0 0 24 24" fill="none"><path d="M8 12.5V6.2a1.4 1.4 0 0 1 2.8 0v4.6M10.8 10.6V4.9a1.4 1.4 0 0 1 2.8 0v5.7M13.6 10.8V6.2a1.4 1.4 0 0 1 2.8 0v7.4M16.4 12v-2a1.4 1.4 0 0 1 2.8 0v5.6c0 3.4-2.3 6-6.2 6-3 0-4.4-1-5.8-2.8L4.6 15a1.5 1.5 0 0 1 2.3-1.9l1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-leaf" viewBox="0 0 24 24" fill="none"><path d="M5 19c-1-6 2.5-13 13.5-14 1 8-3.5 13.5-13.5 14Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 18C9 13 12 10 17 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="icon-map" viewBox="0 0 24 24" fill="none"><path d="M9 4.5 4.5 6v13.5L9 18l6 1.5 4.5-1.5V4.5L15 6 9 4.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 4.5V18M15 6v13.5" stroke="currentColor" stroke-width="1.6"/></symbol>
+      <symbol id="icon-dialogue" viewBox="0 0 24 24" fill="none"><path d="M4 6.8a2 2 0 0 1 2-2h7.5a2 2 0 0 1 2 2v4.6a2 2 0 0 1-2 2H9.8l-3 2.6a.5.5 0 0 1-.8-.38v-2.22H6a2 2 0 0 1-2-2V6.8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 9.6h.5a2 2 0 0 1 2 2v3.4a2 2 0 0 1-2 2v1.9a.5.5 0 0 1-.82.38l-2.18-1.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24" fill="none"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></symbol>
+      <symbol id="icon-diagnostic" viewBox="0 0 24 24" fill="none"><circle cx="10.2" cy="10.2" r="6.2" stroke="currentColor" stroke-width="1.6"/><path d="M14.6 14.6 19.5 19.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7 10.2h1.6l1-1.8 1.4 3.6 1-1.8h1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-manual" viewBox="0 0 24 24" fill="none"><path d="M8 12.5V6.2a1.4 1.4 0 0 1 2.8 0v4.6M10.8 10.6V4.9a1.4 1.4 0 0 1 2.8 0v5.7M13.6 10.8V6.2a1.4 1.4 0 0 1 2.8 0v7.4M16.4 12v-2a1.4 1.4 0 0 1 2.8 0v5.6c0 3.4-2.3 6-6.2 6-3 0-4.4-1-5.8-2.8L4.6 15a1.5 1.5 0 0 1 2.3-1.9l1.1 1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.2 8.6c.7-.8 1.5-.8 2.2 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></symbol>
+      <symbol id="icon-notepad" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="16.5" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M9 3v2.6M15 3v2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8 11.5l1.8 1.8L13.5 9.6M8 16.2h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand-logo" href="index.html">
+          <div class="logo-symbol" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="55" cy="55" r="52" fill="#EDE0CF" />
+              <line x1="8" y1="46" x2="44" y2="52" stroke="#8B6552" stroke-width="2" stroke-linecap="round" />
+              <line x1="5" y1="56" x2="43" y2="56" stroke="#8B6552" stroke-width="2" stroke-linecap="round" />
+              <line x1="8" y1="66" x2="44" y2="60" stroke="#8B6552" stroke-width="2" stroke-linecap="round" />
+              <line x1="102" y1="46" x2="66" y2="52" stroke="#8B6552" stroke-width="2" stroke-linecap="round" />
+              <line x1="105" y1="56" x2="67" y2="56" stroke="#8B6552" stroke-width="2" stroke-linecap="round" />
+              <line x1="102" y1="66" x2="66" y2="60" stroke="#8B6552" stroke-width="2" stroke-linecap="round" />
+              <polygon points="55,44 46,62 64,62" fill="#C9A079" />
+              <line x1="55" y1="62" x2="55" y2="68" stroke="#8B6552" stroke-width="1.8" stroke-linecap="round" />
+              <path d="M46,68 Q55,78 64,68" fill="none" stroke="#8B6552" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <div>
+            <p class="brand-eyebrow">Ostéopathie animale</p>
+            <h1 class="brand-name">Alexane Thomas</h1>
+          </div>
+        </a>
+        <nav class="site-nav" aria-label="Navigation principale">
+          <a href="#apropos">À propos</a>
+          <a href="prestations.html">Prestations</a>
+          <a href="#deroulement">Déroulement</a>
+          <a href="#galerie">Galerie</a>
+          <a href="#faq">Questions</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a class="btn btn-primary btn-header" href="#contact">
+          <svg width="16" height="16" viewBox="0 0 24 24"><use href="#icon-calendar" /></svg>
+          Prendre rendez-vous
+        </a>
+      </header>
+
+      <main>
+        <section class="hero-section full-screen-hero">
+          <div class="hero-copy">
+            <span class="eyebrow-label">Soin manuel animalier · Bayonne, Biarritz &amp; Anglet</span>
+            <h2>Une présence douce pour redonner mobilité et sérénité à votre compagnon</h2>
+            <p>Ostéopathe animalier diplômée, j'interviens à domicile, en écurie et en élevage auprès des chevaux, bovins, chiens, chats et NAC, avec une approche respectueuse du rythme de chaque animal.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#contact">Prendre rendez-vous</a>
+              <a class="btn btn-secondary" href="#prestations">Voir les prestations</a>
+            </div>
+            <ul class="hero-trust-list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24"><use href="#icon-pin" /></svg> Domicile &amp; écurie, jusqu'à 50&nbsp;km</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24"><use href="#icon-clock" /></svg> Réponse sous 24h</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24"><use href="#icon-shield" /></svg> Adapté à vos besoins</li>
+            </ul>
+          </div>
+          <div class="hero-visual">
+            <figure class="hero-photo-card">
+              <img src="assets/img/hero-poney.jpg" alt="Alexane Thomas réalisant une séance d'ostéopathie sur la tête d'un poney, mains posées avec douceur de part et d'autre du chanfrein" loading="eager" />
+              <figcaption class="hero-chip">
+                <svg width="16" height="16" viewBox="0 0 24 24"><use href="#icon-hand" /></svg>
+                Réconfort et mobilité
+              </figcaption>
+            </figure>
+            <div class="hero-badge-float">
+              <strong>Toutes espèces</strong>
+              <span>Équidés · Bovins · Chiens · Chats · NAC</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="trust-strip" aria-label="Engagements">
+          <div class="trust-item">
+            <svg width="22" height="22" viewBox="0 0 24 24"><use href="#icon-pin" /></svg>
+            <div>
+              <strong>Déplacement inclus</strong>
+              <span>Domicile, écurie ou pension, jusqu'à 50 km de Bayonne</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <svg width="22" height="22" viewBox="0 0 24 24"><use href="#icon-leaf" /></svg>
+            <div>
+              <strong>Approche douce</strong>
+              <span>Techniques manuelles adaptées à la tolérance de l'animal</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <svg width="22" height="22" viewBox="0 0 24 24"><use href="#icon-shield" /></svg>
+            <div>
+              <strong>Cadre réglementaire respecté</strong>
+              <span>Consultation après examen vétérinaire préalable</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <svg width="22" height="22" viewBox="0 0 24 24"><use href="#icon-clock" /></svg>
+            <div>
+              <strong>Suivi réactif</strong>
+              <span>Confirmation et échange sous 24h par téléphone</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="prestations" class="section-grid">
+          <div class="section-intro">
+            <p class="section-label">Mes prestations</p>
+            <h2>Des soins adaptés à chaque animal et chaque situation</h2>
+            <p class="section-subtitle">Chaque séance est individualisée : anamnèse, observation du mouvement, palpation douce, puis techniques manuelles choisies selon l'espèce, l'âge et l'activité de l'animal.</p>
+            <a class="text-link" href="prestations.html">Voir le détail de chaque prestation</a>
+          </div>
+          <div class="card-grid">
+            <article class="service-card">
+              <div class="service-photo">
+                <img src="assets/img/gallery-chevaux.jpg" alt="Jument et poulain dans un pré, accompagnement d'Alexane Thomas" loading="lazy" />
+              </div>
+              <span class="card-tag">01</span>
+              <h3>Équidés</h3>
+              <p>Consultation en écurie, en centre équestre ou en pension. Travail de la posture, récupération sportive et confort locomoteur du cheval et du poney.</p>
+              <a class="btn btn-secondary btn-card" href="prestations.html#equides">En savoir plus</a>
+            </article>
+            <article class="service-card">
+              <div class="service-photo">
+                <img src="assets/img/service-bovins.jpg" alt="Alexane Thomas au licol avec un veau, suivi en élevage bovin" loading="lazy" />
+              </div>
+              <span class="card-tag">02</span>
+              <h3>Bovins</h3>
+              <p>Interventions en élevage, sur vaches, veaux et taurillons. Amélioration du confort locomoteur et accompagnement des animaux les plus sensibles au stress.</p>
+              <a class="btn btn-secondary btn-card" href="prestations.html#bovins">En savoir plus</a>
+            </article>
+            <article class="service-card">
+              <div class="service-photo">
+                <img src="assets/img/gallery-chat.jpg" alt="Chat roux câliné, exemple de suivi pour chiens et chats" loading="lazy" />
+              </div>
+              <span class="card-tag">03</span>
+              <h3>Chiens &amp; chats</h3>
+              <p>Séances à domicile pour préserver le calme et limiter le stress. Suivi des douleurs articulaires, tensions musculaires et troubles de la locomotion.</p>
+              <a class="btn btn-secondary btn-card" href="prestations.html#chiens-chats">En savoir plus</a>
+            </article>
+            <article class="service-card">
+              <div class="service-photo service-photo-placeholder" aria-hidden="true">
+                <svg width="52" height="52" viewBox="0 0 24 24"><use href="#icon-leaf" /></svg>
+              </div>
+              <span class="card-tag">04</span>
+              <h3>NAC</h3>
+              <p>Accompagnement doux pour lapins, furets, rongeurs et petits mammifères. Techniques adaptées à chaque morphologie et à leur grande sensibilité.</p>
+              <a class="btn btn-secondary btn-card" href="prestations.html#nac">En savoir plus</a>
+            </article>
+          </div>
+        </section>
+
+        <section id="quand-consulter" class="when-section">
+          <div class="section-intro">
+            <p class="section-label">Quand consulter</p>
+            <h2>Les signes qui doivent vous alerter</h2>
+            <p class="section-subtitle">Selon l'espèce, les signaux du quotidien à surveiller ne sont pas les mêmes. Voici quelques repères, en complément de l'avis de votre vétérinaire.</p>
+          </div>
+          <div class="when-layout">
+            <div class="when-tabs" role="tablist" aria-label="Choisir une espèce">
+              <button type="button" class="when-tab is-active" data-when-target="0" role="tab" aria-selected="true">Équidés</button>
+              <button type="button" class="when-tab" data-when-target="1" role="tab" aria-selected="false">Bovins</button>
+              <button type="button" class="when-tab" data-when-target="2" role="tab" aria-selected="false">Chiens &amp; chats</button>
+              <button type="button" class="when-tab" data-when-target="3" role="tab" aria-selected="false">NAC</button>
+            </div>
+            <div class="when-panels">
+              <div class="when-panel is-active" data-when-panel="0" role="tabpanel">
+                <h3>Équidés</h3>
+                <p>Chez le cheval, certains signes doivent inciter à consulter un ostéopathe, en complément d'un suivi vétérinaire.</p>
+                <ul>
+                  <li>Résistance ou changement de comportement sous la selle</li>
+                  <li>Asymétrie musculaire ou difficulté à prendre un galop</li>
+                  <li>Baisse de performance sans cause apparente</li>
+                  <li>Suite à une chute, un transport ou une compétition</li>
+                  <li>Sensibilité au pansage, au sellage ou dans le dos</li>
+                </ul>
+              </div>
+              <div class="when-panel" data-when-panel="1" role="tabpanel" hidden>
+                <h3>Bovins</h3>
+                <p>En élevage, l'ostéopathie peut accompagner certains troubles de la mobilité observés au quotidien.</p>
+                <ul>
+                  <li>Difficulté à se lever ou à se coucher</li>
+                  <li>Boiterie ou démarche raide persistante</li>
+                  <li>Suites d'un vêlage difficile</li>
+                  <li>Baisse de mobilité sans cause vétérinaire identifiée</li>
+                </ul>
+              </div>
+              <div class="when-panel" data-when-panel="2" role="tabpanel" hidden>
+                <h3>Chiens &amp; chats</h3>
+                <p>Chez le chien et le chat, plusieurs signaux du quotidien peuvent justifier une consultation.</p>
+                <ul>
+                  <li>Réticence à sauter, monter les escaliers ou se déplacer</li>
+                  <li>Boiterie intermittente ou raideur au réveil</li>
+                  <li>Léchage répété d'une même zone</li>
+                  <li>Changement de comportement (irritabilité, retrait)</li>
+                  <li>Suite à une chute, un choc ou une intervention chirurgicale</li>
+                </ul>
+              </div>
+              <div class="when-panel" data-when-panel="3" role="tabpanel" hidden>
+                <h3>NAC</h3>
+                <p>Chez les NAC, très sensibles, l'observation attentive du quotidien est essentielle.</p>
+                <ul>
+                  <li>Diminution de la mobilité ou de l'activité</li>
+                  <li>Difficulté à se déplacer dans la cage ou le clapier</li>
+                  <li>Changement dans la toilette ou l'appétit</li>
+                  <li>Posture inhabituelle ou repli sur soi</li>
+                </ul>
+              </div>
+              <a class="when-cta" href="#contact">Un doute sur les signes observés ? Contactez-moi</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="deroulement" class="process-section">
+          <noscript>
+            <style>
+              .process-scroller { height: auto !important; }
+              .process-sticky { position: static !important; height: auto !important; padding: 0 !important; }
+              .process-heading { text-align: left !important; }
+              .process-progress { display: none !important; }
+              .process-stage { position: static !important; min-height: 0 !important; }
+              .process-step { position: static !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; margin-bottom: 40px; text-align: left !important; }
+              .process-step .process-index { margin: 0 0 18px !important; }
+            </style>
+          </noscript>
+
+          <div class="process-scroller" id="process-scroller">
+            <div class="process-sticky">
+              <div class="process-heading">
+                <p class="section-label">Déroulement</p>
+                <h2>Comment se déroule une séance</h2>
+              </div>
+              <ol class="process-progress" aria-label="Étapes de la séance">
+                <li><button type="button" class="process-dot is-active is-filled" data-step-target="0" aria-current="step"><span class="sr-only">Étape 1</span></button></li>
+                <li><button type="button" class="process-dot" data-step-target="1"><span class="sr-only">Étape 2</span></button></li>
+                <li><button type="button" class="process-dot" data-step-target="2"><span class="sr-only">Étape 3</span></button></li>
+                <li><button type="button" class="process-dot" data-step-target="3"><span class="sr-only">Étape 4</span></button></li>
+                <li><button type="button" class="process-dot" data-step-target="4"><span class="sr-only">Étape 5</span></button></li>
+              </ol>
+              <div class="process-stage" aria-live="polite">
+                <article class="process-step is-active" data-step="0">
+                  <div class="process-step-text">
+                    <span class="process-index">01</span>
+                    <h3>Échange &amp; anamnèse</h3>
+                    <p>Discussion avec le propriétaire sur l'historique, le comportement et les besoins de l'animal.</p>
+                  </div>
+                  <div class="process-step-visual" aria-hidden="true">
+                    <svg width="56" height="56" viewBox="0 0 24 24"><use href="#icon-dialogue" /></svg>
+                  </div>
+                </article>
+                <article class="process-step" data-step="1" aria-hidden="true">
+                  <div class="process-step-text">
+                    <span class="process-index">02</span>
+                    <h3>Observation</h3>
+                    <p>Analyse de la posture, de la démarche et des points de tension au repos et en mouvement.</p>
+                  </div>
+                  <div class="process-step-visual" aria-hidden="true">
+                    <svg width="56" height="56" viewBox="0 0 24 24"><use href="#icon-eye" /></svg>
+                  </div>
+                </article>
+                <article class="process-step" data-step="2" aria-hidden="true">
+                  <div class="process-step-text">
+                    <span class="process-index">03</span>
+                    <h3>Palpation &amp; diagnostic</h3>
+                    <p>Repérage manuel et précis des zones de restriction de mobilité, en douceur et sans forcer.</p>
+                  </div>
+                  <div class="process-step-visual" aria-hidden="true">
+                    <svg width="56" height="56" viewBox="0 0 24 24"><use href="#icon-diagnostic" /></svg>
+                  </div>
+                </article>
+                <article class="process-step" data-step="3" aria-hidden="true">
+                  <div class="process-step-text">
+                    <span class="process-index">04</span>
+                    <h3>Techniques manuelles</h3>
+                    <p>Manipulations et mobilisations adaptées à l'espèce, l'âge et la tolérance de l'animal.</p>
+                  </div>
+                  <div class="process-step-visual" aria-hidden="true">
+                    <svg width="56" height="56" viewBox="0 0 24 24"><use href="#icon-manual" /></svg>
+                  </div>
+                </article>
+                <article class="process-step" data-step="4" aria-hidden="true">
+                  <div class="process-step-text">
+                    <span class="process-index">05</span>
+                    <h3>Conseils de suivi</h3>
+                    <p>Recommandations post-séance et fréquence de suivi conseillée pour le propriétaire.</p>
+                    <a class="btn btn-primary process-step-cta" href="#contact">Prendre rendez-vous</a>
+                  </div>
+                  <div class="process-step-visual" aria-hidden="true">
+                    <svg width="56" height="56" viewBox="0 0 24 24"><use href="#icon-notepad" /></svg>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="apropos" class="about-section">
+          <div class="about-photo">
+            <img src="assets/img/about-vache.jpg" alt="Alexane Thomas au contact d'une vache, moment de confiance en élevage" loading="lazy" />
+          </div>
+          <div class="about-content">
+            <p class="section-label">À propos</p>
+            <h2>Une pratique de terrain, au plus près des animaux</h2>
+            <p>Ostéopathe animalière basée entre Bayonne, Biarritz et Anglet, j'interviens avec bienveillance chez l'animal pour soulager les tensions et rétablir l'équilibre du corps — en écurie, en élevage ou à domicile, dans le calme de son environnement habituel.</p>
+            <ul class="credential-list">
+              <li>
+                <svg width="20" height="20" viewBox="0 0 24 24"><use href="#icon-shield" /></svg>
+                <span>Diplômée en ostéopathie animale — <em>[École &amp; année à compléter]</em></span>
+              </li>
+              <li>
+                <svg width="20" height="20" viewBox="0 0 24 24"><use href="#icon-shield" /></svg>
+                <span>Assurance Responsabilité Civile Professionnelle — <em>[Compagnie / n° à compléter]</em></span>
+              </li>
+              <li>
+                <svg width="20" height="20" viewBox="0 0 24 24"><use href="#icon-pin" /></svg>
+                <span>Zone d'intervention : Bayonne, Biarritz, Anglet et jusqu'à 50 km alentour</span>
+              </li>
+            </ul>
+            <!-- Lien à définir -->
+            <button type="button" class="btn btn-secondary about-cta">Apprendre à me connaître</button>
+          </div>
+        </section>
+
+        <section id="galerie" class="gallery-section">
+          <div class="section-intro">
+            <p class="section-label">Galerie</p>
+            <h2>Sur le terrain, auprès des animaux</h2>
+          </div>
+          <div class="gallery-grid">
+            <figure class="gallery-item gallery-item-tall">
+              <img src="assets/img/gallery-alpaga.jpg" alt="Examen ostéopathique du dos d'un alpaga en présence de sa propriétaire" loading="lazy" />
+            </figure>
+            <figure class="gallery-item">
+              <img src="assets/img/gallery-veau-biberon.jpg" alt="Alexane Thomas au contact d'un veau, moment tout en douceur" loading="lazy" />
+            </figure>
+            <figure class="gallery-item">
+              <img src="assets/img/gallery-chevaux.jpg" alt="Chevaux au pré au moment du foin" loading="lazy" />
+            </figure>
+          </div>
+        </section>
+
+
+        <section id="faq" class="faq-section">
+          <div class="section-intro">
+            <p class="section-label">Questions fréquentes</p>
+            <h2>Ce qu'il est utile de savoir</h2>
+          </div>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary>
+                Faut-il l'accord d'un vétérinaire avant une séance ?
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-chevron" /></svg>
+              </summary>
+              <p>Oui. La réglementation française impose qu'un vétérinaire ait examiné l'animal au préalable, notamment en cas de suspicion de pathologie, avant toute séance d'ostéopathie animale.</p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                Une séance est-elle douloureuse pour l'animal ?
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-chevron" /></svg>
+              </summary>
+              <p>Non, les techniques utilisées sont manuelles et douces, toujours adaptées à la tolérance et au comportement de l'animal. La séance s'arrête ou se réajuste si l'animal manifeste un inconfort.</p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                Combien de temps dure une consultation ?
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-chevron" /></svg>
+              </summary>
+              <p>Cela dépend de l'espèce et du motif de consultation, généralement entre 30 et 60 minutes. Le tarif est communiqué avant la venue, selon la localisation et le type d'animal.</p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                À quelle fréquence prévoir un suivi ostéopathique ?
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-chevron" /></svg>
+              </summary>
+              <p>Cela varie selon l'âge, l'activité et l'état de santé de l'animal. Un suivi régulier est souvent conseillé pour les animaux sportifs ou âgés ; nous en discutons ensemble lors de la consultation.</p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                Intervenez-vous uniquement à domicile ?
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24"><use href="#icon-chevron" /></svg>
+              </summary>
+              <p>J'interviens à domicile, en écurie, en centre équestre ou en pension, dans un rayon de 50 km autour de Bayonne, Biarritz et Anglet, afin que l'animal reste dans son environnement habituel.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="footer-section" id="contact">
+          <div class="footer-card">
+            <div class="footer-inner">
+              <div>
+                <p class="card-eyebrow">Contact</p>
+                <h2>Prête à prendre soin de votre compagnon</h2>
+                <a class="btn btn-light" href="#contact">Prendre rendez-vous</a>
+              </div>
+              <div class="footer-meta">
+                <div>
+                  <p class="footer-label"><svg width="16" height="16" viewBox="0 0 24 24"><use href="#icon-phone" /></svg> Téléphone</p>
+                  <a href="tel:+33612345678">06 12 34 56 78</a>
+                </div>
+                <div>
+                  <p class="footer-label"><svg width="16" height="16" viewBox="0 0 24 24"><use href="#icon-mail" /></svg> Email</p>
+                  <a href="mailto:contact@alexanethomas.fr">contact@alexanethomas.fr</a>
+                </div>
+                <div>
+                  <p class="footer-label"><svg width="16" height="16" viewBox="0 0 24 24"><use href="#icon-map" /></svg> Localisation</p>
+                  <p>Bayonne, Pyrénées-Atlantiques · rayon 50 km</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="footer-legal">Alexane Thomas — Ostéopathe animalier · SIRET [à compléter] · Consultation soumise à examen vétérinaire préalable, conformément à la réglementation en vigueur.</p>
+        </section>
+      </main>
+    </div>
+    <script src="js/app.js"></script>
+  </body>
+</html>
