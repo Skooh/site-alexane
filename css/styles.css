@@ -1302,8 +1302,6 @@ textarea {
 
   .hero-photo-card {
     width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 0;
   }
 
   .hero-quote {
