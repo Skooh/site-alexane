@@ -34,12 +34,16 @@
           <svg class="logo-symbol" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-paw" /></svg>
           <h1 class="brand-name">Alexane Thomas</h1>
         </a>
-        <nav class="site-nav" aria-label="Navigation principale">
+        <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
+          <span></span><span></span><span></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
           <a href="index.html#apropos">Apprendre à me connaître</a>
           <a href="prestations.html" aria-current="page">Mes prestations</a>
           <a>Qu'est-ce que l'ostéopathie</a>
           <a>Tarif</a>
           <a href="index.html#faq">Vos questions</a>
+          <a class="btn btn-primary nav-cta" href="#contact">Prendre rendez-vous</a>
         </nav>
         <a class="btn btn-primary btn-header" href="#contact">Prendre rendez-vous</a>
        </div>
@@ -170,5 +174,6 @@
         </section>
       </main>
     </div>
+    <script src="js/app.js"></script>
   </body>
 </html>

@@ -1,7 +1,47 @@
 document.addEventListener('DOMContentLoaded', function () {
   initProcessScroller();
   initWhenTabs();
+  initBurgerMenu();
 });
+
+function initBurgerMenu() {
+  const header = document.querySelector('.site-header');
+  const toggle = header && header.querySelector('.nav-toggle');
+  const nav = header && header.querySelector('.site-nav');
+  if (!header || !toggle || !nav) {
+    return;
+  }
+
+  function setOpen(open) {
+    header.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  }
+
+  toggle.addEventListener('click', function () {
+    setOpen(!header.classList.contains('nav-open'));
+  });
+
+  // Close when a menu link is chosen
+  nav.addEventListener('click', function (event) {
+    if (event.target.closest('a')) {
+      setOpen(false);
+    }
+  });
+
+  // Close on Escape or when clicking outside the header
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      setOpen(false);
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    if (header.classList.contains('nav-open') && !header.contains(event.target)) {
+      setOpen(false);
+    }
+  });
+}
 
 function initWhenTabs() {
   const tabs = Array.from(document.querySelectorAll('.when-tab'));

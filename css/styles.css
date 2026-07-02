@@ -161,6 +161,47 @@ textarea {
   white-space: nowrap;
 }
 
+/* Burger toggle — hidden on desktop, shown at <=960px */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 0 auto;
+  border-radius: 2px;
+  background: var(--brown-dark);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.site-header.nav-open .nav-toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.site-header.nav-open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header.nav-open .nav-toggle span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* The in-menu CTA only appears in the mobile dropdown */
+.site-nav .nav-cta {
+  display: none;
+}
+
 /* ---------- Buttons & badges ---------- */
 
 .btn {
@@ -1162,18 +1203,42 @@ textarea {
     order: -1;
   }
 
-  .site-header {
-    position: static;
+  .nav-toggle {
+    display: flex;
   }
 
-  .header-inner {
-    flex-wrap: wrap;
+  /* Desktop CTA hidden; the dropdown uses its own .nav-cta */
+  .btn-header {
+    display: none;
   }
 
   .site-nav {
-    order: 3;
-    width: 100%;
-    justify-content: flex-start;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px 20px 20px;
+    background: var(--page-bg);
+    border-bottom: 1px solid var(--sand);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .site-header.nav-open .site-nav {
+    display: flex;
+  }
+
+  .site-nav a {
+    padding: 12px 4px;
+    font-size: 1rem;
+  }
+
+  .site-nav .nav-cta {
+    display: inline-flex;
+    margin-top: 10px;
   }
 
   .card-grid,
