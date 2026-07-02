@@ -1029,6 +1029,93 @@ textarea {
   border-radius: 5px;
 }
 
+/* ---------- Zone d'intervention ---------- */
+
+.zone-section {
+  background: var(--band-bg);
+  width: 100%;
+  margin: 0 0 72px;
+  padding: 72px 0;
+}
+
+.zone-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.zone-copy h2 {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 2.5vw, 2.6rem);
+  line-height: 1.1;
+}
+
+.zone-copy > p {
+  color: var(--brown-mid);
+  font-size: 1.02rem;
+  margin: 0 0 28px;
+}
+
+.zone-card {
+  background: var(--white);
+  border: 1px solid var(--sand);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.zone-radius {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--sand);
+}
+
+.zone-radius svg {
+  color: var(--clay);
+  flex-shrink: 0;
+}
+
+.zone-radius strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--brown-dark);
+}
+
+.zone-radius span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: var(--brown-mid);
+}
+
+.zone-towns {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.zone-towns li {
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: var(--brown-dark);
+}
+
 /* ---------- Gallery ---------- */
 
 .gallery-grid {
@@ -1191,6 +1278,7 @@ textarea {
   .hero-section,
   .about-section,
   .when-layout,
+  .zone-inner,
   .category-hero,
   .category-block,
   .category-block.reverse {
