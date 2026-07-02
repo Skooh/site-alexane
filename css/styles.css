@@ -1271,6 +1271,230 @@ textarea {
   color: var(--brown-mid);
 }
 
+/* ---------- Product / booking page ---------- */
+
+.product-section {
+  max-width: var(--container-max);
+  margin: 0 auto 72px;
+  padding: 0 var(--container-pad);
+}
+
+.product-price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 28px;
+}
+
+.product-price strong {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--brown-dark);
+}
+
+.product-price span {
+  color: var(--brown-mid);
+  font-size: 0.95rem;
+  max-width: 260px;
+}
+
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.benefit-card {
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--white);
+  border: 1px solid var(--sand);
+  display: grid;
+  place-items: center;
+  color: var(--clay);
+  margin-bottom: 18px;
+}
+
+.benefit-card h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.benefit-card p {
+  margin: 0;
+  color: var(--brown-mid);
+  font-size: 0.95rem;
+}
+
+.product-split {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.when-card {
+  background: var(--white);
+  border: 1px solid var(--sand);
+  border-radius: var(--radius-lg);
+  padding: 36px 40px;
+  box-shadow: var(--shadow-sm);
+}
+
+.when-card-title {
+  margin: 0 0 24px;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
+  line-height: 1.12;
+}
+
+.when-card .category-list {
+  margin-bottom: 0;
+}
+
+.product-aside {
+  background: var(--band-bg);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+}
+
+.product-aside h3 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.product-aside p {
+  margin: 0 0 24px;
+  color: var(--brown-mid);
+  font-size: 0.95rem;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+  counter-reset: step;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  background: var(--white);
+  border: 1px solid var(--sand);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+}
+
+.step-index {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--brown-dark);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.step h3 {
+  margin: 4px 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.step p {
+  margin: 0;
+  color: var(--brown-mid);
+  font-size: 0.95rem;
+}
+
+.booking-section {
+  max-width: var(--container-max);
+  margin: 0 auto 72px;
+  padding: 0 var(--container-pad);
+}
+
+.booking-card {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: center;
+  background: var(--cream);
+  border: 1px solid var(--sand);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  box-shadow: var(--shadow-sm);
+}
+
+.booking-copy h2 {
+  margin: 8px 0 16px;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 2.4vw, 2.4rem);
+  line-height: 1.1;
+}
+
+.booking-copy > p {
+  margin: 0 0 16px;
+  color: var(--brown-mid);
+}
+
+.booking-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--brown-mid);
+}
+
+.booking-note svg {
+  color: var(--clay);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.booking-actions {
+  display: grid;
+  gap: 14px;
+}
+
+.booking-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.booking-price strong {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--brown-dark);
+}
+
+.booking-price span {
+  font-size: 0.85rem;
+  color: var(--brown-mid);
+}
+
 /* ---------- Responsive ---------- */
 
 
@@ -1281,8 +1505,15 @@ textarea {
   .zone-inner,
   .category-hero,
   .category-block,
-  .category-block.reverse {
+  .category-block.reverse,
+  .benefit-grid,
+  .product-split,
+  .booking-card {
     grid-template-columns: 1fr;
+  }
+
+  .booking-card {
+    padding: 36px 28px;
   }
 
   .category-media,
