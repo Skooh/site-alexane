@@ -93,6 +93,10 @@ textarea {
   scroll-margin-top: 110px;
 }
 
+#prestations {
+  margin-top: 64px;
+}
+
 /* ---------- Header ---------- */
 
 .site-header {
