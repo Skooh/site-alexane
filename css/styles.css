@@ -617,9 +617,21 @@ textarea {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.btn-card {
+.card-footer {
   margin-top: auto;
-  align-self: flex-start;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-price {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--brown-dark);
+  white-space: nowrap;
 }
 
 .service-card:hover {
