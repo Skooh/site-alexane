@@ -382,18 +382,12 @@ textarea {
 
 .category-hero {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1.05fr;
   gap: 56px;
   align-items: center;
-  max-width: 1440px;
-  margin: 24px auto 56px;
-  padding: 56px 48px;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(201, 160, 121, 0.16), transparent 20%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 235, 221, 0.95));
-  border-radius: calc(var(--radius-lg) * 1.2);
-  box-shadow: var(--shadow);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 40px var(--container-pad) 72px;
 }
 
 .category-hero h2 {
@@ -402,6 +396,11 @@ textarea {
   line-height: 1.08;
   letter-spacing: -0.02em;
   margin: 0 0 20px;
+}
+
+.category-hero h2 em {
+  color: var(--clay);
+  font-style: italic;
 }
 
 .category-hero-copy > p {
@@ -434,11 +433,11 @@ textarea {
 
 .category-hero-photo {
   margin: 0;
-  aspect-ratio: 4 / 3;
-  border-radius: var(--radius-lg);
+  width: 100%;
+  aspect-ratio: 4 / 3.3;
+  /* Same organic blob shape as the homepage hero image. */
+  border-radius: 63% 37% 54% 46% / 55% 45% 60% 40%;
   overflow: hidden;
-  border: 6px solid var(--white);
-  box-shadow: var(--shadow-lg);
 }
 
 .category-hero-photo img {
@@ -462,7 +461,7 @@ textarea {
   aspect-ratio: 4 / 3;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .category-media img {
@@ -1200,6 +1199,10 @@ textarea {
     order: -1;
   }
 
+  .category-media-placeholder {
+    aspect-ratio: 4 / 3;
+  }
+
   .when-tabs {
     grid-auto-flow: column;
     grid-auto-columns: minmax(140px, 1fr);
@@ -1412,9 +1415,17 @@ textarea {
   }
 
   .category-hero {
-    padding: 32px 20px;
-    margin: 16px auto 40px;
-    gap: 28px;
+    padding: 24px 20px 40px;
+    margin: 0 auto;
+    gap: 24px;
+  }
+
+  /* Full-bleed blob hero image shown after the text, like the homepage */
+  .category-hero-photo {
+    order: 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 
   .when-panels {
