@@ -1695,21 +1695,21 @@ textarea {
     width: 100%;
   }
 
+  /* The sticky, scroll-driven animation is fragile on mobile browsers
+     (iOS dynamic toolbar + svh repaint bugs leave the pinned content blank
+     mid-scroll), so on phones the steps become a simple stacked list. */
   .process-scroller {
-    height: 400vh;
+    height: auto;
   }
 
-  /* Pin below the sticky header so the heading is never clipped, and
-     fill the remaining viewport height. */
   .process-sticky {
-    top: var(--header-height-mobile);
-    height: calc(100vh - var(--header-height-mobile));
-    height: calc(100svh - var(--header-height-mobile));
-    justify-content: center;
+    position: static;
+    height: auto;
+    display: block;
   }
 
   .process-heading {
-    margin-bottom: 12px;
+    margin-bottom: 24px;
   }
 
   .process-heading h2 {
@@ -1717,28 +1717,40 @@ textarea {
   }
 
   .process-progress {
-    margin-bottom: 20px;
+    display: none;
   }
 
   .process-stage {
-    min-height: 360px;
-  }
-
-  .process-step {
-    grid-template-columns: 1fr;
+    position: static;
+    min-height: 0;
+    display: grid;
     gap: 16px;
   }
 
+  .process-step {
+    position: static;
+    inset: auto;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    grid-template-columns: 1fr;
+    gap: 0;
+    background: var(--white);
+    border: 1px solid var(--sand);
+    border-radius: var(--radius-md);
+    padding: 24px 22px;
+  }
+
+  .process-step .process-index {
+    margin-bottom: 14px;
+  }
+
+  .process-step h3 {
+    font-size: 1.3rem;
+  }
+
   .process-step-visual {
-    max-height: 140px;
-  }
-
-  .process-dot {
-    height: 28px;
-  }
-
-  .process-dot::after {
-    height: 6px;
+    display: none;
   }
 
   .card-grid,
