@@ -1309,6 +1309,12 @@ textarea {
     max-width: 200px;
   }
 
+  .eyebrow-label {
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    padding: 7px 14px;
+  }
+
   .hero-copy h2 {
     font-size: 2rem;
   }
