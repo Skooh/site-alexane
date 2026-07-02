@@ -550,20 +550,6 @@ textarea {
   font-size: 1rem;
 }
 
-.text-link {
-  display: inline-flex;
-  margin-top: 18px;
-  font-weight: 500;
-  color: var(--brown-dark);
-  text-decoration: underline;
-  text-decoration-color: var(--terracotta);
-  text-underline-offset: 3px;
-}
-
-.text-link:hover {
-  color: var(--clay);
-}
-
 /* ---------- Services ---------- */
 
 .card-grid {
