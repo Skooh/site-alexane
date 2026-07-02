@@ -40,8 +40,7 @@ function initZoneMap() {
     scrollWheelZoom: false,
     // On touch devices a one-finger drag would trap the page scroll, so pan
     // is disabled there; the +/- controls still allow zooming.
-    dragging: !L.Browser.mobile,
-    attributionControl: true
+    dragging: !L.Browser.mobile
   }).setView(BAYONNE, 9);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {

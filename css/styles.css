@@ -562,7 +562,9 @@ textarea {
 .process-section,
 .about-section,
 .gallery-section,
-.faq-section {
+.faq-section,
+.product-section,
+.booking-section {
   max-width: var(--container-max);
   margin: 0 auto 72px;
   padding: 0 var(--container-pad);
@@ -1289,12 +1291,6 @@ textarea {
 
 /* ---------- Product / booking page ---------- */
 
-.product-section {
-  max-width: var(--container-max);
-  margin: 0 auto 72px;
-  padding: 0 var(--container-pad);
-}
-
 .product-price {
   display: flex;
   align-items: baseline;
@@ -1440,12 +1436,6 @@ textarea {
   margin: 0;
   color: var(--brown-mid);
   font-size: 0.95rem;
-}
-
-.booking-section {
-  max-width: var(--container-max);
-  margin: 0 auto 72px;
-  padding: 0 var(--container-pad);
 }
 
 .booking-card {
@@ -1737,7 +1727,6 @@ textarea {
   .process-step {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     gap: 18px;
   }
 
@@ -1774,6 +1763,8 @@ textarea {
   .about-section,
   .gallery-section,
   .faq-section,
+  .product-section,
+  .booking-section,
   .category-block {
     padding: 0 var(--container-pad-mobile);
     margin-bottom: 56px;
