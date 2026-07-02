@@ -1065,8 +1065,24 @@ textarea {
   background: var(--white);
   border: 1px solid var(--sand);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
+}
+
+#zone-map {
+  height: 360px;
+  width: 100%;
+  background: var(--cream);
+  z-index: 0;
+}
+
+/* Keep Leaflet's default UI in the site's palette */
+#zone-map .leaflet-container {
+  font-family: var(--font-body);
+}
+
+.zone-card-body {
+  padding: 28px 32px;
 }
 
 .zone-radius {

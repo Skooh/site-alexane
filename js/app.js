@@ -2,7 +2,77 @@ document.addEventListener('DOMContentLoaded', function () {
   initProcessScroller();
   initWhenTabs();
   initBurgerMenu();
+  initZoneMap();
 });
+
+function initZoneMap() {
+  const el = document.getElementById('zone-map');
+  // Leaflet is only loaded on pages that show the coverage map.
+  if (!el || typeof L === 'undefined') {
+    return;
+  }
+
+  const BAYONNE = [43.4933, -1.4748];
+  const towns = [
+    ['Bayonne', 43.4933, -1.4748],
+    ['Biarritz', 43.4832, -1.5586],
+    ['Anglet', 43.485, -1.514],
+    ['Boucau', 43.5279, -1.4869],
+    ['Bidart', 43.4386, -1.5911],
+    ['Saint-Jean-de-Luz', 43.388, -1.6636],
+    ['Hendaye', 43.359, -1.7746],
+    ['Ustaritz', 43.396, -1.456],
+    ['Cambo-les-Bains', 43.36, -1.403],
+    ['Hasparren', 43.386, -1.305],
+    ['Saint-Pée-sur-Nivelle', 43.356, -1.548],
+    ['La Bastide-Clairence', 43.436, -1.236],
+    ['Tarnos', 43.541, -1.461],
+    ['Capbreton', 43.642, -1.434],
+    ['Hossegor', 43.664, -1.396],
+    ['Saint-Vincent-de-Tyrosse', 43.662, -1.306],
+    ['Peyrehorade', 43.549, -1.115]
+  ];
+
+  // Set an initial view before adding any layers: Leaflet can only project
+  // points once the map has a center/zoom, otherwise circle/marker layers
+  // throw during creation.
+  const map = L.map(el, {
+    scrollWheelZoom: false,
+    // On touch devices a one-finger drag would trap the page scroll, so pan
+    // is disabled there; the +/- controls still allow zooming.
+    dragging: !L.Browser.mobile,
+    attributionControl: true
+  }).setView(BAYONNE, 9);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+  // 50 km coverage radius around Bayonne.
+  const radius = L.circle(BAYONNE, {
+    radius: 50000,
+    color: '#A9633B',
+    weight: 1.5,
+    fillColor: '#C9A079',
+    fillOpacity: 0.1
+  }).addTo(map);
+
+  // Each served commune, coloured in the brand dark.
+  towns.forEach(function (t) {
+    L.circleMarker([t[1], t[2]], {
+      radius: 6,
+      color: '#FFFFFF',
+      weight: 1.5,
+      fillColor: '#3A2A1A',
+      fillOpacity: 1
+    })
+      .addTo(map)
+      .bindTooltip(t[0], { direction: 'top', offset: [0, -4] });
+  });
+
+  map.fitBounds(radius.getBounds(), { padding: [16, 16] });
+}
 
 function initBurgerMenu() {
   const header = document.querySelector('.site-header');
