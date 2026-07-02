@@ -24,6 +24,10 @@
   --container-max: 1440px;
   --container-pad: 48px;
   --container-pad-mobile: 20px;
+
+  /* Mobile sticky header height (18px×2 padding + 44px burger button).
+     Keep in sync if the header padding or burger size changes. */
+  --header-height-mobile: 80px;
 }
 
 * {
@@ -1283,10 +1287,6 @@ textarea {
     padding: 18px var(--container-pad-mobile);
   }
 
-  .btn-header span {
-    display: none;
-  }
-
   .hero-section {
     padding: 32px 20px 56px;
     gap: 28px;
@@ -1332,12 +1332,12 @@ textarea {
     height: 400vh;
   }
 
-  /* Pin below the sticky header (~80px) so the heading is never clipped,
-     and fill the remaining viewport height. */
+  /* Pin below the sticky header so the heading is never clipped, and
+     fill the remaining viewport height. */
   .process-sticky {
-    top: 80px;
-    height: calc(100vh - 80px);
-    height: calc(100svh - 80px);
+    top: var(--header-height-mobile);
+    height: calc(100vh - var(--header-height-mobile));
+    height: calc(100svh - var(--header-height-mobile));
     justify-content: center;
   }
 
