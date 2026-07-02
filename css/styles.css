@@ -114,22 +114,16 @@ textarea {
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 14px;
-}
-
-.brand-eyebrow {
-  margin: 0 0 4px;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--brown-mid);
+  gap: 10px;
 }
 
 .brand-name {
   margin: 0;
   font-family: var(--font-display);
+  font-weight: 700;
   font-size: 22px;
   line-height: 1.1;
+  color: var(--brown-dark);
 }
 
 .site-nav {
@@ -247,8 +241,11 @@ textarea {
 
 .eyebrow-label {
   display: inline-flex;
-  font-size: 12px;
-  letter-spacing: 0.28em;
+  background: var(--sand);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--clay);
   font-weight: 600;
@@ -261,6 +258,11 @@ textarea {
   line-height: 1.08;
   letter-spacing: -0.02em;
   margin: 0 0 22px;
+}
+
+.hero-copy h2 em {
+  color: var(--clay);
+  font-style: italic;
 }
 
 .hero-copy p {
@@ -277,42 +279,18 @@ textarea {
   margin-bottom: 32px;
 }
 
-.hero-trust-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px 26px;
-}
-
-.hero-trust-list li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: var(--brown-mid);
-  font-weight: 500;
-}
-
-.hero-trust-list svg {
-  color: var(--clay);
-  flex-shrink: 0;
-}
-
 .hero-visual {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .hero-photo-card {
   margin: 0;
   width: min(100%, 560px);
-  aspect-ratio: 4 / 3;
-  border-radius: calc(var(--radius-lg) * 1.1);
-  border: 6px solid var(--white);
+  aspect-ratio: 4 / 3.3;
+  border-radius: 63% 37% 54% 46% / 55% 45% 60% 40%;
   overflow: hidden;
-  position: relative;
   box-shadow: var(--shadow-lg);
 }
 
@@ -322,48 +300,21 @@ textarea {
   object-fit: cover;
 }
 
-.hero-chip {
+.hero-quote {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(58, 42, 26, 0.82);
-  backdrop-filter: blur(6px);
-  color: var(--cream);
-  padding: 12px 18px;
-  border-radius: 999px;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.hero-badge-float {
-  position: absolute;
-  top: -18px;
-  right: -8px;
+  left: 0;
+  bottom: 8%;
+  max-width: 220px;
   background: var(--white);
-  border: 1px solid var(--sand);
   border-radius: var(--radius-md);
-  padding: 16px 20px;
+  padding: 20px 22px;
   box-shadow: var(--shadow-sm);
-  display: grid;
-  gap: 2px;
-  max-width: 190px;
-  text-align: center;
-}
-
-.hero-badge-float strong {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 1rem;
-}
-
-.hero-badge-float span {
-  font-size: 0.75rem;
-  color: var(--brown-mid);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--clay);
 }
 
 /* ---------- Category page (Prestations) ---------- */
@@ -1235,12 +1186,6 @@ textarea {
 
   .hero-visual {
     order: -1;
-  }
-
-  .hero-badge-float {
-    position: static;
-    margin-top: 16px;
-    justify-self: start;
   }
 
   .site-header {
