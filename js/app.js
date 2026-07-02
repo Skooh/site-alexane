@@ -144,16 +144,6 @@ function initProcessScroller() {
   if (!scroller || scroller.dataset.scrollerInit) {
     return;
   }
-  // On phones the steps are shown as a plain stacked list (see the mobile
-  // CSS), so the scroll-driven animation is skipped. Every step is exposed
-  // since the HTML marks all but the first aria-hidden for that animation.
-  if (window.matchMedia('(max-width: 680px)').matches) {
-    scroller.querySelectorAll('.process-step').forEach(function (step) {
-      step.classList.add('is-active');
-      step.setAttribute('aria-hidden', 'false');
-    });
-    return;
-  }
   scroller.dataset.scrollerInit = 'true';
 
   const steps = Array.from(scroller.querySelectorAll('.process-step'));

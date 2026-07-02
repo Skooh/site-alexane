@@ -1695,21 +1695,24 @@ textarea {
     width: 100%;
   }
 
-  /* The sticky, scroll-driven animation is fragile on mobile browsers
-     (iOS dynamic toolbar + svh repaint bugs leave the pinned content blank
-     mid-scroll), so on phones the steps become a simple stacked list. */
   .process-scroller {
-    height: auto;
+    height: 400vh;
   }
 
+  /* Pin below the sticky header and fill the *visible* viewport. Using dvh
+     (which tracks the real height as iOS shows/hides its toolbar) instead of
+     vh/svh avoids the empty gap that left the pinned step floating with dead
+     space below it. */
   .process-sticky {
-    position: static;
-    height: auto;
-    display: block;
+    top: var(--header-height-mobile);
+    height: calc(100vh - var(--header-height-mobile));
+    height: calc(100dvh - var(--header-height-mobile));
+    justify-content: flex-start;
+    padding-top: 24px;
   }
 
   .process-heading {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
   }
 
   .process-heading h2 {
@@ -1717,40 +1720,40 @@ textarea {
   }
 
   .process-progress {
-    display: none;
+    margin-bottom: 20px;
   }
 
+  /* The stage takes all the remaining height, and each step becomes a flex
+     column whose visual panel grows to fill it — so the step spans the whole
+     screen (text at the top, panel down to the bottom) with no dead space. */
   .process-stage {
-    position: static;
     min-height: 0;
-    display: grid;
-    gap: 16px;
+    flex: 1 1 auto;
   }
 
   .process-step {
-    position: static;
-    inset: auto;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-    grid-template-columns: 1fr;
-    gap: 0;
-    background: var(--white);
-    border: 1px solid var(--sand);
-    border-radius: var(--radius-md);
-    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 18px;
   }
 
-  .process-step .process-index {
-    margin-bottom: 14px;
-  }
-
-  .process-step h3 {
-    font-size: 1.3rem;
+  .process-step-text {
+    flex: 0 0 auto;
   }
 
   .process-step-visual {
-    display: none;
+    flex: 1 1 auto;
+    max-height: none;
+    min-height: 120px;
+  }
+
+  .process-dot {
+    height: 28px;
+  }
+
+  .process-dot::after {
+    height: 6px;
   }
 
   .card-grid,
