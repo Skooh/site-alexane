@@ -204,6 +204,8 @@ textarea {
 /* The in-menu CTA only appears in the mobile dropdown */
 .site-nav .nav-cta {
   display: none;
+  /* Override the .site-nav a link color so the button label stays white */
+  color: var(--white);
 }
 
 /* ---------- Buttons & badges ---------- */
