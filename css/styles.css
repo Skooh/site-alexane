@@ -191,6 +191,11 @@ textarea {
   box-shadow: 0 14px 30px rgba(58, 42, 26, 0.22);
 }
 
+.site-header .btn-primary,
+.hero-actions .btn-primary {
+  box-shadow: none;
+}
+
 .btn-primary:hover {
   background: #2c2013;
 }
@@ -300,7 +305,6 @@ textarea {
      these values if the hero photo's aspect ratio changes. */
   border-radius: 63% 37% 54% 46% / 55% 45% 60% 40%;
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
 }
 
 .hero-photo-card img {
@@ -317,7 +321,6 @@ textarea {
   background: var(--white);
   border-radius: var(--radius-md);
   padding: 20px 22px;
-  box-shadow: var(--shadow-sm);
   margin: 0;
   font-family: var(--font-display);
   font-style: italic;
