@@ -18,6 +18,10 @@
   --shadow-sm: 0 10px 30px rgba(58, 42, 26, 0.10);
   --shadow: 0 24px 70px rgba(58, 42, 26, 0.12);
   --shadow-lg: 0 40px 100px rgba(58, 42, 26, 0.18);
+
+  --container-max: 1440px;
+  --container-pad: 48px;
+  --container-pad-mobile: 20px;
 }
 
 * {
@@ -106,9 +110,9 @@ textarea {
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  max-width: 1440px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 18px 48px;
+  padding: 18px var(--container-pad);
 }
 
 .brand-logo {
@@ -289,6 +293,8 @@ textarea {
   margin: 0;
   width: min(100%, 680px);
   aspect-ratio: 4 / 3.3;
+  /* Organic blob shape tuned for the hero-poney.jpg 4:3.3 crop; re-tune
+     these values if the hero photo's aspect ratio changes. */
   border-radius: 63% 37% 54% 46% / 55% 45% 60% 40%;
   overflow: hidden;
   box-shadow: var(--shadow-lg);
@@ -479,9 +485,9 @@ textarea {
 }
 
 .trust-strip-inner {
-  max-width: 1440px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 var(--container-pad);
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 20px;
@@ -524,9 +530,9 @@ textarea {
 .about-section,
 .gallery-section,
 .faq-section {
-  max-width: 1440px;
+  max-width: var(--container-max);
   margin: 0 auto 72px;
-  padding: 0 48px;
+  padding: 0 var(--container-pad);
 }
 
 .section-intro {
@@ -1247,7 +1253,7 @@ textarea {
   }
 
   .header-inner {
-    padding: 18px 20px;
+    padding: 18px var(--container-pad-mobile);
   }
 
   .btn-header span {
@@ -1315,6 +1321,10 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .trust-strip-inner {
+    padding: 0 var(--container-pad-mobile);
+  }
+
   .section-grid,
   .when-section,
   .process-section,
@@ -1322,7 +1332,7 @@ textarea {
   .gallery-section,
   .faq-section,
   .category-block {
-    padding: 0 20px;
+    padding: 0 var(--container-pad-mobile);
     margin-bottom: 56px;
   }
 
