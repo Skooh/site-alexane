@@ -662,14 +662,14 @@ textarea {
 }
 
 .when-tab.is-active {
-  background: var(--brown-dark);
-  border-color: var(--brown-dark);
-  color: var(--cream);
+  background: #F6EBDD;
+  border-color: var(--clay);
+  color: var(--brown-dark);
 }
 
 .when-panels {
   position: relative;
-  background: var(--cream);
+  background: var(--white);
   border: 1px solid var(--sand);
   border-radius: var(--radius-lg);
   padding: 40px 44px;
