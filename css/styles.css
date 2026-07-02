@@ -803,8 +803,9 @@ textarea {
 
 .process-sticky {
   position: sticky;
-  top: 110px;
-  height: min(74vh, 620px);
+  top: 0;
+  height: 100vh;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1309,8 +1310,9 @@ textarea {
   }
 
   .process-sticky {
-    top: 90px;
-    height: min(88vh, 640px);
+    top: 0;
+    height: 100vh;
+    height: 100svh;
   }
 
   .process-heading {
