@@ -1315,6 +1315,21 @@ textarea {
     padding: 7px 14px;
   }
 
+  /* "Quand consulter" tabs: 2×2 grid instead of a horizontal scroll,
+     with smaller, centered buttons. */
+  .when-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: row;
+    overflow-x: visible;
+    gap: 10px;
+  }
+
+  .when-tab {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
   .hero-copy h2 {
     font-size: 2rem;
   }
