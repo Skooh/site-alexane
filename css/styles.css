@@ -134,10 +134,10 @@ textarea {
 }
 
 .site-nav a {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--brown-mid);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: normal;
+  text-transform: none;
   transition: color 0.2s ease;
   padding: 6px 2px;
 }
@@ -208,7 +208,7 @@ textarea {
 
 .hero-section {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 0.85fr 1.15fr;
   gap: 56px;
   align-items: center;
   min-height: calc(100vh - 160px);
@@ -287,7 +287,7 @@ textarea {
 
 .hero-photo-card {
   margin: 0;
-  width: min(100%, 560px);
+  width: min(100%, 680px);
   aspect-ratio: 4 / 3.3;
   border-radius: 63% 37% 54% 46% / 55% 45% 60% 40%;
   overflow: hidden;
@@ -472,8 +472,15 @@ textarea {
 /* ---------- Trust strip ---------- */
 
 .trust-strip {
+  background: var(--sand);
+  width: 100%;
+  margin: 56px 0 0;
+  padding: 40px 0;
+}
+
+.trust-strip-inner {
   max-width: 1440px;
-  margin: 56px auto;
+  margin: 0 auto;
   padding: 0 48px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1203,7 +1210,7 @@ textarea {
   }
 
   .card-grid,
-  .trust-strip {
+  .trust-strip-inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1304,7 +1311,7 @@ textarea {
   }
 
   .card-grid,
-  .trust-strip {
+  .trust-strip-inner {
     grid-template-columns: 1fr;
   }
 
