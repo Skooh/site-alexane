@@ -689,17 +689,6 @@ textarea {
   }
 }
 
-.when-panel h3 {
-  margin: 0 0 12px;
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-}
-
-.when-panel > p {
-  color: var(--brown-mid);
-  margin: 0 0 18px;
-}
-
 .when-panel ul,
 .category-list {
   list-style: none;
