@@ -1,4 +1,5 @@
 :root {
+  --page-bg: #F2EAE6;
   --cream: #F5EBDD;
   --ivory: #EDE0CF;
   --sand: #DFD0BB;
@@ -49,10 +50,7 @@ body {
   font-family: var(--font-body);
   font-size: 16px;
   color: var(--brown-dark);
-  background:
-    radial-gradient(circle at top left, rgba(245, 235, 221, 0.9) 0%, transparent 35%),
-    radial-gradient(circle at bottom right, rgba(237, 224, 207, 0.8) 0%, transparent 30%),
-    linear-gradient(180deg, #fcf6ee 0%, #f7efe6 100%);
+  background: var(--page-bg);
   line-height: 1.65;
 }
 
@@ -98,10 +96,7 @@ textarea {
 /* ---------- Header ---------- */
 
 .site-header {
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(201, 160, 121, 0.16), transparent 20%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 235, 221, 0.95));
+  background: var(--page-bg);
   width: 100%;
   position: sticky;
   top: 0;
@@ -225,24 +220,9 @@ textarea {
   align-items: center;
   min-height: calc(100vh - 160px);
   padding: 64px 48px 96px;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(201, 160, 121, 0.16), transparent 20%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 235, 221, 0.95));
+  background: var(--page-bg);
   position: relative;
   overflow: hidden;
-}
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(201, 160, 121, 0.14) 0%, transparent 18%),
-    radial-gradient(circle at 85% 25%, rgba(139, 101, 82, 0.08) 0%, transparent 14%),
-    linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.4) 100%);
-  opacity: 0.9;
-  pointer-events: none;
 }
 
 .hero-copy,
