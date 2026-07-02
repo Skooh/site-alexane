@@ -219,7 +219,7 @@ textarea {
   grid-template-columns: 0.85fr 1.15fr;
   gap: 56px;
   align-items: center;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 40px);
   padding: 64px 48px 96px;
   background: var(--page-bg);
   position: relative;
@@ -467,7 +467,7 @@ textarea {
 .trust-strip {
   background: var(--band-bg);
   width: 100%;
-  margin: 56px 0 64px;
+  margin: 0 0 64px;
   padding: 40px 0;
 }
 
@@ -663,7 +663,6 @@ textarea {
 
 .when-tab.is-active {
   background: #F6EBDD;
-  border-color: var(--clay);
   color: var(--brown-dark);
 }
 
