@@ -1292,8 +1292,9 @@ textarea {
     gap: 28px;
   }
 
-  /* Full-bleed hero image on mobile */
+  /* Full-bleed hero image on mobile, shown after the text */
   .hero-visual {
+    order: 0;
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
