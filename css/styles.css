@@ -585,8 +585,7 @@ textarea {
   font-weight: 600;
 }
 
-.section-intro h2,
-.footer-card h2 {
+.section-intro h2 {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(2rem, 2.5vw, 2.6rem);
@@ -1215,78 +1214,124 @@ textarea {
 
 /* ---------- Footer ---------- */
 
-.footer-section {
-  background: transparent;
-  margin: 0 0 0;
+.site-footer {
   width: 100%;
-}
-
-.footer-card {
-  width: 100%;
-  background: linear-gradient(180deg, rgba(53, 46, 37, 0.95), rgba(58, 42, 26, 0.98));
+  background: linear-gradient(180deg, rgba(53, 46, 37, 0.97), rgba(58, 42, 26, 0.99));
   color: var(--cream);
-  border: none;
-  border-radius: 0;
-  padding: 56px 0;
 }
 
 .footer-inner {
-  max-width: 1440px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 48px;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 32px;
+  padding: 64px var(--container-pad) 32px;
 }
 
-.footer-meta {
-  display: grid;
-  gap: 20px;
-  align-content: start;
-}
-
-.footer-meta > div {
-  display: grid;
-  gap: 4px;
-}
-
-.footer-label {
-  margin: 0 0 4px;
+/* CTA row */
+.footer-cta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding-bottom: 44px;
+  border-bottom: 1px solid rgba(245, 235, 221, 0.16);
+}
+
+.footer-cta .footer-eyebrow {
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255, 246, 241, 0.75);
-}
-
-.footer-label svg {
   color: var(--terracotta);
+  font-weight: 600;
 }
 
-.footer-card a,
-.footer-card p {
-  color: var(--cream);
+.footer-cta h2 {
   margin: 0;
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.4vw, 2.3rem);
+  line-height: 1.12;
 }
 
-.footer-card a:hover,
-.footer-card a:focus-visible {
+/* Columns */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.3fr;
+  gap: 40px;
+  padding: 48px 0;
+}
+
+.footer-brand .brand-logo {
+  margin-bottom: 18px;
+}
+
+.footer-brand .brand-name {
+  color: var(--cream);
+}
+
+.footer-brand p {
+  margin: 0;
+  max-width: 40ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(245, 235, 221, 0.72);
+}
+
+.footer-col h3 {
+  margin: 0 0 18px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.footer-col a,
+.footer-col span {
+  color: rgba(245, 235, 221, 0.78);
+  font-size: 0.95rem;
+}
+
+.footer-col a:hover,
+.footer-col a:focus-visible {
   color: var(--terracotta);
 }
 
-.footer-card a.btn-light,
-.footer-card a.btn-light:hover {
-  color: var(--brown-dark);
+.footer-contact li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-.footer-legal {
-  max-width: 1440px;
-  margin: 24px auto 0;
-  padding: 0 48px 40px;
+.footer-contact svg {
+  color: var(--terracotta);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Bottom bar */
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  flex-wrap: wrap;
+  padding-top: 24px;
+  border-top: 1px solid rgba(245, 235, 221, 0.16);
+}
+
+.footer-bottom p {
+  margin: 0;
   font-size: 0.8rem;
-  color: var(--brown-mid);
+  color: rgba(245, 235, 221, 0.55);
 }
 
 /* ---------- Product / booking page ---------- */
@@ -1615,8 +1660,13 @@ textarea {
     aspect-ratio: 16 / 10;
   }
 
-  .footer-inner {
-    grid-template-columns: 1fr;
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
   }
 }
 
@@ -1789,14 +1839,16 @@ textarea {
   }
 
   .footer-inner {
-    padding: 0 20px;
+    padding: 48px var(--container-pad-mobile) 28px;
   }
 
-  .footer-card {
-    padding: 40px 0;
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 36px 0;
   }
 
-  .footer-legal {
-    padding: 0 20px 32px;
+  .footer-cta {
+    padding-bottom: 32px;
   }
 }
