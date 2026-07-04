@@ -851,37 +851,66 @@ textarea {
   margin: 0 0 32px;
   padding: 0;
   display: flex;
-  width: 100%;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .process-progress li {
-  flex: 1;
   display: flex;
 }
 
 .process-dot {
   position: relative;
-  flex: 1;
-  width: 100%;
-  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
   padding: 0;
-  border: none;
-  background: transparent;
+  border: 2px solid rgba(95, 58, 37, 0.18);
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--brown-dark);
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.process-dot:hover {
+  transform: translateY(-1px);
+  border-color: var(--terracotta);
 }
 
 .process-dot::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 8px;
-  transform: translateY(-50%);
-  border-radius: 999px;
-  background: var(--sand);
-  transition: background-color 0.3s ease;
+  display: none;
+}
+
+.process-dot-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.process-dot.is-filled {
+  background: rgba(140, 98, 74, 0.14);
+  border-color: rgba(140, 98, 74, 0.24);
+}
+
+.process-dot[aria-current="step"],
+.process-dot.is-active {
+  background: var(--brown-dark);
+  border-color: var(--brown-dark);
+  color: var(--cream);
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(95, 58, 37, 0.18);
 }
 
 .sr-only {
