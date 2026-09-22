@@ -877,8 +877,10 @@ textarea {
   border-color: rgba(140, 98, 74, 0.24);
 }
 
-.process-dot[aria-current="step"],
-.process-dot.is-active {
+/* The active dot is driven by aria-current alone, which initProcessScroller
+   moves as you scroll. Don't add a parallel is-active class here: the two
+   would drift apart and leave a dot permanently highlighted. */
+.process-dot[aria-current="step"] {
   background: var(--brown-dark);
   border-color: var(--brown-dark);
   color: var(--cream);
