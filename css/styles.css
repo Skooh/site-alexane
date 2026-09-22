@@ -279,19 +279,6 @@ textarea {
   z-index: 1;
 }
 
-.eyebrow-label {
-  display: inline-flex;
-  background: var(--sand);
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--clay);
-  font-weight: 600;
-  margin-bottom: 22px;
-}
-
 .hero-copy h2 {
   font-family: var(--font-display);
   font-size: clamp(2.1rem, 3.2vw, 3.5rem);
@@ -575,16 +562,6 @@ textarea {
   margin-bottom: 40px;
 }
 
-.section-label {
-  display: inline-flex;
-  margin-bottom: 16px;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--clay);
-  font-weight: 600;
-}
-
 .section-intro h2 {
   margin: 0;
   font-family: var(--font-display);
@@ -833,10 +810,6 @@ textarea {
 .process-heading {
   text-align: left;
   margin-bottom: 20px;
-}
-
-.process-heading .section-label {
-  margin-bottom: 10px;
 }
 
 .process-heading h2 {
@@ -1264,15 +1237,6 @@ textarea {
   flex-wrap: wrap;
   padding-bottom: 44px;
   border-bottom: 1px solid rgba(245, 235, 221, 0.16);
-}
-
-.footer-cta .footer-eyebrow {
-  margin: 0 0 10px;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--terracotta);
-  font-weight: 600;
 }
 
 .footer-cta h2 {
@@ -1728,12 +1692,6 @@ textarea {
   .hero-quote {
     left: 16px;
     max-width: 200px;
-  }
-
-  .eyebrow-label {
-    font-size: 9.5px;
-    letter-spacing: 0.1em;
-    padding: 7px 14px;
   }
 
   /* "Quand consulter" tabs: 2×2 grid instead of a horizontal scroll,
