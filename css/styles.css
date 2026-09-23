@@ -918,14 +918,16 @@ textarea {
 
 .process-stage {
   position: relative;
-  min-height: 320px;
+  /* Tall enough to hold the photo frame, whose height follows its width
+     through the 25:12 ratio; otherwise it would spill over the step dots. */
+  min-height: 400px;
 }
 
 .process-step {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 0.78fr 1.22fr;
   align-items: center;
   gap: 48px;
   text-align: left;
@@ -985,7 +987,11 @@ textarea {
   overflow: hidden;
   height: auto;
   max-height: none;
+  /* Matches the crop baked into the file, so the photo is never stretched
+     nor cropped a second time, whatever width the column ends up at. */
   aspect-ratio: 25 / 12;
+  max-width: 800px;
+  border-radius: var(--radius-lg);
   flex: 0 0 auto;
 }
 
@@ -994,6 +1000,7 @@ textarea {
   height: 100%;
   min-height: inherit;
   object-fit: cover;
+  border-radius: inherit;
   display: block;
 }
 
@@ -1147,29 +1154,24 @@ textarea {
 
 /* ---------- Gallery ---------- */
 
+/* Masonry via CSS columns: every photo keeps its own aspect ratio, so none
+   of them is cropped and the tiles stagger naturally. */
 .gallery-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  column-count: 3;
+  column-gap: 20px;
 }
 
 .gallery-item {
-  margin: 0;
+  margin: 0 0 20px;
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  grid-row: span 1;
-}
-
-.gallery-item-tall {
-  grid-row: span 2;
+  break-inside: avoid;
 }
 
 .gallery-item img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
   transition: transform 0.4s ease;
 }
@@ -1667,16 +1669,7 @@ textarea {
   }
 
   .gallery-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
-
-  .gallery-item-tall {
-    grid-row: auto;
-  }
-
-  .gallery-item {
-    aspect-ratio: 4 / 3;
+    column-count: 2;
   }
 
   .about-photo {
@@ -1832,6 +1825,10 @@ textarea {
   .category-block {
     padding: 0 var(--container-pad-mobile);
     margin-bottom: 56px;
+  }
+
+  .gallery-grid {
+    column-count: 1;
   }
 
   .category-hero {
