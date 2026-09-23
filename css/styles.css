@@ -284,6 +284,12 @@ textarea {
   z-index: 1;
 }
 
+/* The photo stays pinned to the top of the row (see .hero-section), but the
+   copy is centred against it so the two columns read as balanced. */
+.hero-copy {
+  align-self: center;
+}
+
 .hero-copy h2 {
   font-family: var(--font-display);
   font-size: clamp(2.1rem, 3.2vw, 3.5rem);
@@ -624,6 +630,13 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* service-vache.jpg is a 3:4 portrait in a 16:11 slot, so cover keeps only
+   half its height. Centred, that crop cut off Alexane's head; 35% pulls the
+   window up to hold her whole figure while keeping the cow's muzzle in. */
+.service-photo-top img {
+  object-position: center 35%;
 }
 
 .service-photo-placeholder {
