@@ -267,7 +267,7 @@ textarea {
   gap: 40px;
   align-items: center;
   min-height: calc(100vh - 40px);
-  padding: 44px 48px 72px;
+  padding: 32px 48px 72px;
   background: var(--page-bg);
   position: relative;
   overflow: hidden;
@@ -314,11 +314,16 @@ textarea {
 
 .hero-photo-card {
   margin: 0;
-  /* Width drives the size, but the vh term stops the frame from swallowing
-     the whole fold on short viewports. */
-  width: min(100%, 1000px, calc((100vh - 80px) * 1.143));
+  /* Width drives the size, but on short viewports the vh term keeps the whole
+     frame above the fold. The 150px is the space the frame cannot use:
+     85px sticky header + 32px section padding-top + margin. The margin is
+     generous on purpose: on narrow viewports the copy column outgrows the
+     photo, and centring the row then pushes the frame further down than the
+     padding alone would. The 1.143 converts that available height back into
+     a width via the 4/3.5 ratio below. */
+  width: min(100%, 1000px, calc((100vh - 150px) * 1.143));
   aspect-ratio: 4 / 3.5;
-  /* Organic blob shape tuned for the hero-poney.jpg 4:3.5 crop; re-tune
+  /* Organic blob shape tuned for the hero photo's 4:3.5 crop; re-tune
      these values if the hero photo's aspect ratio changes. */
   border-radius: 63% 37% 54% 46% / 55% 45% 60% 40%;
   overflow: hidden;
