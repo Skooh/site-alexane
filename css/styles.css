@@ -976,6 +976,27 @@ textarea {
   color: var(--terracotta);
 }
 
+/* The palpation step shows a photo rather than an icon. Its crop is baked
+   into the file at 25:12, so the frame has to hold that ratio at every width.
+   Without it, between 681px and 960px the column is narrow while the frame is
+   280px tall, which turns it portrait and has cover crop the photo a second
+   time -- cutting the cow out of frame. */
+.process-step-photo {
+  overflow: hidden;
+  height: auto;
+  max-height: none;
+  aspect-ratio: 25 / 12;
+  flex: 0 0 auto;
+}
+
+.process-step-photo img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+  display: block;
+}
+
 /* ---------- About ---------- */
 
 .about-section {
