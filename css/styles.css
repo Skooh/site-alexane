@@ -314,8 +314,8 @@ textarea {
 
 .hero-photo-card {
   margin: 0;
-  /* Width drives the size, but on short viewports the vh term keeps the whole
-     blob -- and the caption pinned near its bottom -- above the fold. */
+  /* Width drives the size, but the vh term stops the frame from swallowing
+     the whole fold on short viewports. */
   width: min(100%, 1000px, calc((100vh - 80px) * 1.143));
   aspect-ratio: 4 / 3.5;
   /* Organic blob shape tuned for the hero-poney.jpg 4:3.5 crop; re-tune
@@ -330,15 +330,16 @@ textarea {
   object-fit: cover;
 }
 
-.hero-quote {
-  position: absolute;
-  left: 0;
-  bottom: 8%;
-  max-width: 220px;
+/* White banner under the hero CTAs stating the coverage area. */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  margin: 0;
+  padding: 14px 24px;
   background: var(--white);
   border-radius: var(--radius-md);
-  padding: 20px 22px;
-  margin: 0;
+  box-shadow: var(--shadow-sm);
   font-family: var(--font-display);
   font-style: italic;
   font-size: 1.05rem;
@@ -1677,9 +1678,13 @@ textarea {
     width: 100%;
   }
 
-  .hero-quote {
-    left: 16px;
-    max-width: 200px;
+  /* Match the stacked, full-width CTAs above it. */
+  .hero-badge {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 18px;
+    font-size: 1rem;
   }
 
   /* "Quand consulter" tabs: 2×2 grid instead of a horizontal scroll,
