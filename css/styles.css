@@ -263,11 +263,11 @@ textarea {
 
 .hero-section {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 56px;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 40px;
   align-items: center;
   min-height: calc(100vh - 40px);
-  padding: 64px 48px 96px;
+  padding: 44px 48px 72px;
   background: var(--page-bg);
   position: relative;
   overflow: hidden;
@@ -314,9 +314,11 @@ textarea {
 
 .hero-photo-card {
   margin: 0;
-  width: min(100%, 860px);
-  aspect-ratio: 4 / 3.3;
-  /* Organic blob shape tuned for the hero-poney.jpg 4:3.3 crop; re-tune
+  /* Width drives the size, but on short viewports the vh term keeps the whole
+     blob -- and the caption pinned near its bottom -- above the fold. */
+  width: min(100%, 1000px, calc((100vh - 80px) * 1.143));
+  aspect-ratio: 4 / 3.5;
+  /* Organic blob shape tuned for the hero-poney.jpg 4:3.5 crop; re-tune
      these values if the hero photo's aspect ratio changes. */
   border-radius: 63% 37% 54% 46% / 55% 45% 60% 40%;
   overflow: hidden;
@@ -1567,6 +1569,11 @@ textarea {
 
   .hero-visual {
     order: -1;
+  }
+
+  /* Stacked layout: the hero no longer competes with the copy for height. */
+  .hero-photo-card {
+    width: min(100%, 1000px);
   }
 
   .nav-toggle {
