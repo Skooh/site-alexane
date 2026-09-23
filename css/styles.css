@@ -265,7 +265,12 @@ textarea {
   display: grid;
   grid-template-columns: 0.7fr 1.3fr;
   gap: 40px;
-  align-items: center;
+  /* The row is centred as a block, but each column starts at its top. With
+     align-items:center the taller copy column pushed the photo down by up to
+     105px on narrow screens, which no height cap could predict. Starting the
+     items makes the photo's top position deterministic: header + padding. */
+  align-items: start;
+  align-content: center;
   min-height: calc(100vh - 40px);
   padding: 32px 48px 72px;
   background: var(--page-bg);
@@ -315,12 +320,11 @@ textarea {
 .hero-photo-card {
   margin: 0;
   /* Width drives the size, but on short viewports the vh term keeps the whole
-     frame above the fold. The 150px is the space the frame cannot use:
-     85px sticky header + 32px section padding-top + margin. The margin is
-     generous on purpose: on narrow viewports the copy column outgrows the
-     photo, and centring the row then pushes the frame further down than the
-     padding alone would. The 1.143 converts that available height back into
-     a width via the 4/3.5 ratio below. */
+     frame above the fold: 85px sticky header + 32px section padding-top +
+     33px of margin. This only holds because .hero-section starts its items
+     rather than centring them, which pins the frame's top; see the note
+     there. The 1.143 converts the remaining height back into a width via
+     the 4/3.5 ratio below. */
   width: min(100%, 1000px, calc((100vh - 150px) * 1.143));
   aspect-ratio: 4 / 3.5;
   /* Organic blob shape tuned for the hero photo's 4:3.5 crop; re-tune
@@ -1155,6 +1159,21 @@ textarea {
 
 .gallery-item:hover img {
   transform: scale(1.04);
+}
+
+/* gallery-alpaga.jpg is shot in much brighter light than the other two
+   (average luminance 91, against 76 and 53), so it jumps out of the grid.
+   This veil pulls it back in line; drop the class if the photo is replaced. */
+.gallery-item-dim {
+  position: relative;
+}
+
+.gallery-item-dim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+  pointer-events: none;
 }
 
 /* ---------- FAQ ---------- */
