@@ -263,7 +263,7 @@ textarea {
 
 .hero-section {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: 0.8fr 1.2fr;
   gap: 56px;
   align-items: center;
   min-height: calc(100vh - 40px);
@@ -314,7 +314,7 @@ textarea {
 
 .hero-photo-card {
   margin: 0;
-  width: min(100%, 680px);
+  width: min(100%, 860px);
   aspect-ratio: 4 / 3.3;
   /* Organic blob shape tuned for the hero-poney.jpg 4:3.3 crop; re-tune
      these values if the hero photo's aspect ratio changes. */
