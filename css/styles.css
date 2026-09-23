@@ -1157,7 +1157,7 @@ textarea {
 /* Masonry via CSS columns: every photo keeps its own aspect ratio, so none
    of them is cropped and the tiles stagger naturally. */
 .gallery-grid {
-  column-count: 3;
+  column-count: 4;
   column-gap: 20px;
 }
 
@@ -1669,7 +1669,7 @@ textarea {
   }
 
   .gallery-grid {
-    column-count: 2;
+    column-count: 3;
   }
 
   .about-photo {
@@ -1827,8 +1827,10 @@ textarea {
     margin-bottom: 56px;
   }
 
+  /* Two columns rather than one: seven full-width photos would make the
+     gallery several screens tall on a phone. */
   .gallery-grid {
-    column-count: 1;
+    column-count: 2;
   }
 
   .category-hero {
