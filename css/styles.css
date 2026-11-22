@@ -124,6 +124,17 @@ textarea {
   gap: 10px;
 }
 
+.logo-symbol {
+  display: block;
+  width: 46px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.footer-brand .logo-symbol {
+  width: 64px;
+}
+
 .brand-name {
   margin: 0;
   font-family: var(--font-display);
@@ -131,6 +142,7 @@ textarea {
   font-size: 22px;
   line-height: 1.1;
   color: var(--brown-dark);
+  white-space: nowrap;
 }
 
 .site-nav {
