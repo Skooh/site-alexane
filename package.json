@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "http-server . -p 8000"
+    "start": "python3 \"../Espace client/outils/serveur_local.py\" 8000",
+    "start:site-seul": "http-server . -p 8000"
   },
   "devDependencies": {
     "http-server": "^14.1.1"

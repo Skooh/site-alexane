@@ -3,7 +3,20 @@ document.addEventListener('DOMContentLoaded', function () {
   initWhenTabs();
   initBurgerMenu();
   initZoneMap();
+  initAccountLinks();
 });
+
+// Les boutons « Mon espace » pointent vers site_alexane/Espace client (href="../Espace%20client/connexion.html"),
+// qui fonctionne quand npm start sert tout le dossier site_alexane.
+// Page ouverte directement depuis le fichier : on passe par le serveur local (port 8000).
+function initAccountLinks() {
+  if (location.protocol !== 'file:') {
+    return;
+  }
+  document.querySelectorAll('a.nav-account, a.btn-account').forEach(function (a) {
+    a.href = 'http://localhost:8000/Espace%20client/connexion.html';
+  });
+}
 
 function initZoneMap() {
   const el = document.getElementById('zone-map');

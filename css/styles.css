@@ -208,6 +208,27 @@ textarea {
   color: var(--white);
 }
 
+/* Espace client : bouton à côté du CTA sur ordinateur, entrée du menu déroulant sur mobile */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-actions .btn-account {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  justify-content: center;
+}
+
+.site-nav .nav-account {
+  display: none;
+  border: 1px solid var(--sand);
+  border-radius: 999px;
+  color: var(--brown-dark);
+}
+
 /* ---------- Buttons & badges ---------- */
 
 .btn {
@@ -1625,7 +1646,8 @@ textarea {
   }
 
   /* Desktop CTA hidden; the dropdown uses its own .nav-cta */
-  .btn-header {
+  .btn-header,
+  .header-actions {
     display: none;
   }
 
@@ -1651,6 +1673,13 @@ textarea {
   .site-nav a {
     padding: 12px 4px;
     font-size: 1rem;
+  }
+
+  .site-nav .nav-account {
+    display: block;
+    padding: 12px 16px;
+    text-align: center;
+    margin-top: 8px;
   }
 
   .site-nav .nav-cta {
