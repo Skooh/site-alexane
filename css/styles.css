@@ -1048,6 +1048,10 @@ textarea {
    object-position, so the face and the animal stay visible at every size. */
 .process-step-photo--fit {
   position: relative;
+  /* Less wide than the 25:12 palpation frame, so more of the photo shows. */
+  aspect-ratio: 4 / 3;
+  width: min(100%, 520px);
+  max-height: none;
 }
 
 .process-step-photo--fit img {
