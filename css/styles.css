@@ -1672,9 +1672,40 @@ textarea {
   }
 }
 
-@media (min-width: 681px) {
+/* Both hero buttons always sit on one line, each label unbroken. */
+.hero-actions {
+  flex-wrap: nowrap;
+}
+
+.hero-actions .btn {
+  white-space: nowrap;
+}
+
+@media (min-width: 961px) and (max-width: 1440px) {
+  .hero-section {
+    grid-template-columns: 1fr 1.2fr;
+  }
+
   .hero-actions {
-    flex-wrap: nowrap;
+    gap: 12px;
+  }
+
+  .hero-actions .btn {
+    padding: 14px 22px;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero-actions {
+    flex-direction: row !important;
+    gap: 10px;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 auto;
+    width: auto;
+    padding: 13px 14px;
+    font-size: 0.9rem;
   }
 }
 
@@ -1934,5 +1965,17 @@ textarea {
 
   .footer-cta {
     padding-bottom: 32px;
+  }
+}
+
+/* Very small phones: shrink the two hero buttons so they still share a line. */
+@media (max-width: 380px) {
+  .hero-actions {
+    gap: 8px;
+  }
+
+  .hero-actions .btn {
+    padding: 12px 10px;
+    font-size: 0.8rem;
   }
 }
