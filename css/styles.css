@@ -1044,6 +1044,18 @@ textarea {
   display: block;
 }
 
+/* Photo not pre-cropped to 25:12: it fills the frame and is framed with
+   object-position, so the face and the animal stay visible at every size. */
+.process-step-photo--fit {
+  position: relative;
+}
+
+.process-step-photo--fit img {
+  position: absolute;
+  inset: 0;
+  object-position: 50% 62%;
+}
+
 /* ---------- About ---------- */
 
 .about-section {
