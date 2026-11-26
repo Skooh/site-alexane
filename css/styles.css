@@ -224,14 +224,21 @@ textarea {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
-.header-actions .btn-account {
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  justify-content: center;
+.header-login {
+  font-size: 14px;
+  color: var(--brown-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.header-login:hover {
+  color: var(--clay);
 }
 
 .site-nav .nav-account {
