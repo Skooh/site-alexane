@@ -2068,3 +2068,11 @@ textarea {
 @media (min-width: 1200px) and (max-width: 1299px) {
   .header-inner { padding-left: 32px; padding-right: 32px; }
 }
+
+/* Emplacement sans photo (NAC) : « À venir » à la place d'une icône */
+.placeholder-soon {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--clay);
+}
