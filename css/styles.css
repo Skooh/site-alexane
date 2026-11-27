@@ -1979,3 +1979,70 @@ textarea {
     font-size: 0.8rem;
   }
 }
+
+
+/* ---------- Menu « Ressources » (sous-menu) ---------- */
+.nav-dropdown { position: relative; }
+.nav-drop-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  border: 0; background: none; font: inherit; font-size: 14px;
+  color: var(--brown-mid); padding: 6px 2px; cursor: pointer;
+}
+.nav-drop-btn svg { transition: transform 0.2s ease; }
+.nav-dropdown:hover .nav-drop-btn,
+.nav-dropdown.open .nav-drop-btn { color: var(--brown-dark); }
+.nav-dropdown.open .nav-drop-btn svg,
+.nav-dropdown:hover .nav-drop-btn svg { transform: rotate(180deg); }
+.nav-sub {
+  display: none; position: absolute; top: 100%; left: -14px; z-index: 60;
+  min-width: 190px; flex-direction: column; gap: 2px;
+  margin-top: 8px; padding: 8px; background: var(--white);
+  border: 1px solid var(--sand); border-radius: 16px; box-shadow: var(--shadow-sm);
+}
+/* pont invisible entre le bouton et le sous-menu : il ne se ferme pas en descendant la souris */
+.nav-sub::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
+.nav-dropdown:hover .nav-sub,
+.nav-dropdown.open .nav-sub { display: flex; }
+.nav-sub a { padding: 9px 12px; border-radius: 10px; white-space: nowrap; }
+.nav-sub a:hover, .nav-sub a:focus-visible { background: var(--page-bg); }
+
+@media (max-width: 1199px) {
+  /* Menu burger : « Ressources » devient un titre, ses liens sont affichés en dessous */
+  .nav-dropdown { display: flex; flex-direction: column; }
+  .nav-drop-btn { font-size: 1rem; padding: 12px 4px 4px; cursor: default; pointer-events: none; color: var(--brown-dark); font-weight: 600; }
+  .nav-drop-btn svg { display: none; }
+  .nav-sub, .nav-dropdown:hover .nav-sub { display: flex; position: static; margin: 0; padding: 0 0 0 16px; border: 0; box-shadow: none; background: none; min-width: 0; }
+  .nav-sub::before { display: none; }
+}
+
+/* ---------- Page Photos ---------- */
+.photos-page { padding-top: 40px; }
+.photos-intro p { color: var(--brown-mid); }
+.photos-intro { max-width: 720px; margin: 0 auto 32px; text-align: center; }
+.photos-intro .quicknav { justify-content: center; }
+.photo-filter[aria-pressed="true"] { background: var(--brown-dark); color: var(--white); border-color: var(--brown-dark); }
+.photo-open { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.photo-item[hidden] { display: none; }
+
+.lightbox {
+  position: fixed; inset: 0; z-index: 200; background: rgba(34, 24, 14, 0.92);
+  display: flex; align-items: center; justify-content: center; padding: 24px 64px;
+}
+.lightbox[hidden] { display: none; }
+.lightbox figure { margin: 0; max-width: 100%; max-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.lightbox img { max-width: 100%; max-height: calc(100vh - 120px); border-radius: 12px; object-fit: contain; }
+.lightbox figcaption { color: #f3e9dc; font-size: 14px; text-align: center; max-width: 640px; }
+.lightbox-close, .lightbox-nav {
+  position: absolute; border: 0; background: rgba(255, 255, 255, 0.12); color: #fff;
+  width: 46px; height: 46px; border-radius: 50%; font-size: 28px; line-height: 1; cursor: pointer;
+}
+.lightbox-close { top: 18px; right: 18px; }
+.lightbox-prev { left: 12px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 12px; top: 50%; transform: translateY(-50%); }
+.lightbox-close:hover, .lightbox-nav:hover { background: rgba(255, 255, 255, 0.24); }
+@media (max-width: 680px) {
+  .lightbox { padding: 64px 12px; }
+  .lightbox-prev, .lightbox-next { top: auto; bottom: 14px; transform: none; }
+  .lightbox-prev { left: calc(50% - 56px); }
+  .lightbox-next { right: calc(50% - 56px); }
+}

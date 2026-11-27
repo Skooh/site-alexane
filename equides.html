@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/styles.css?v=20261126h" />
+    <link rel="stylesheet" href="css/styles.css?v=20261128a" />
   </head>
   <body>
     <!-- Icon sprite -->
@@ -40,7 +40,13 @@
           <a href="prestations.html">Mes prestations</a>
           <a href="osteopathie.html">Qu'est-ce que l'ostéopathie</a>
           <a>Tarif</a>
-          <a href="index.html#faq">Vos questions</a>
+          <div class="nav-dropdown">
+            <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="nav-ressources">Ressources <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron" /></svg></button>
+            <div class="nav-sub" id="nav-ressources">
+              <a href="index.html#faq">Vos questions</a>
+              <a href="photos.html">Photos</a>
+            </div>
+          </div>
           <a class="nav-account" href="espace/connexion.html">Me connecter</a>
           <a class="btn btn-primary nav-cta" href="#reserver">Prendre rendez-vous</a>
         </nav>
@@ -264,6 +270,7 @@
                 <li><a href="osteopathie.html">Qu'est-ce que l'ostéopathie</a></li>
                 <li><span>Tarif</span></li>
                 <li><a href="index.html#faq">Vos questions</a></li>
+                <li><a href="photos.html">Photos</a></li>
               </ul>
             </nav>
 
@@ -293,6 +300,6 @@
         </div>
       </footer>
     </div>
-    <script src="js/app.js?v=20261127"></script>
+    <script src="js/app.js?v=20261128a"></script>
   </body>
 </html>

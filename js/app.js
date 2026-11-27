@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+  initResourcesMenu();
+  initPhotoGallery();
   initProcessScroller();
   initWhenTabs();
   initBurgerMenu();
@@ -233,4 +235,90 @@ function initProcessScroller() {
   });
 
   updateFromScroll();
+}
+
+
+// Menu « Ressources » : s'ouvre au survol (ordinateur) ou au toucher/clavier ; ferme en cliquant ailleurs ou avec Échap
+function initResourcesMenu() {
+  document.querySelectorAll('.nav-dropdown').forEach(function (dd) {
+    var btn = dd.querySelector('.nav-drop-btn');
+    function setOpen(open) {
+      dd.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setOpen(!dd.classList.contains('open'));
+    });
+    document.addEventListener('click', function (e) {
+      if (!dd.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  });
+}
+
+// Page Photos : filtres par espèce et grande visionneuse (flèches, Échap, glisser sur téléphone)
+function initPhotoGallery() {
+  var gallery = document.querySelector('.photo-gallery');
+  var box = document.getElementById('lightbox');
+  if (!gallery || !box) return;
+  var items = Array.prototype.slice.call(gallery.querySelectorAll('.photo-item'));
+  var img = box.querySelector('img');
+  var caption = box.querySelector('figcaption');
+  var current = 0;
+  var lastFocus = null;
+
+  document.querySelectorAll('.photo-filter').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var cat = chip.getAttribute('data-filter');
+      document.querySelectorAll('.photo-filter').forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+      items.forEach(function (it) { it.hidden = cat !== 'tout' && it.getAttribute('data-cat') !== cat; });
+    });
+  });
+
+  function visibles() { return items.filter(function (it) { return !it.hidden; }); }
+  function show(i) {
+    var list = visibles();
+    current = (i + list.length) % list.length;
+    var source = list[current].querySelector('img');
+    img.src = source.src;
+    img.alt = source.alt;
+    caption.textContent = source.alt;
+  }
+  function open(item) {
+    lastFocus = document.activeElement;
+    box.hidden = false;
+    document.body.style.overflow = 'hidden';
+    show(visibles().indexOf(item));
+    box.querySelector('.lightbox-close').focus();
+  }
+  function close() {
+    box.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  items.forEach(function (it) {
+    it.querySelector('.photo-open').addEventListener('click', function () { open(it); });
+  });
+  box.querySelector('.lightbox-close').addEventListener('click', close);
+  box.querySelector('.lightbox-prev').addEventListener('click', function () { show(current - 1); });
+  box.querySelector('.lightbox-next').addEventListener('click', function () { show(current + 1); });
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (box.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+  var startX = null;
+  box.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', function (e) {
+    if (startX === null) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    startX = null;
+  });
 }

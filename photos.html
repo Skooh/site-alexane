@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photos · Alexane Thomas, ostéopathe animalier</title>
+    <meta name="description" content="Les photos d'Alexane Thomas en consultation : chevaux, bovins, chiens, chats et autres animaux, à domicile, en écurie et en élevage." />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css?v=20261128a" />
+  </head>
+  <body>
+    <!-- Icon sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+      <symbol id="icon-phone" viewBox="0 0 24 24" fill="none"><path d="M6.5 4h3l1.4 4.2-2 1.6a12 12 0 0 0 5.3 5.3l1.6-2 4.2 1.4v3a2 2 0 0 1-2.2 2C11 18.7 5.3 13 4.5 6.2A2 2 0 0 1 6.5 4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 6.5 12 12.5l7.5-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9.5 12 15l6-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="icon-map" viewBox="0 0 24 24" fill="none"><path d="M9 4.5 4.5 6v13.5L9 18l6 1.5 4.5-1.5V4.5L15 6 9 4.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 4.5V18M15 6v13.5" stroke="currentColor" stroke-width="1.6"/></symbol>
+      <symbol id="icon-leaf" viewBox="0 0 24 24" fill="none"><path d="M5 19c-1-6 2.5-13 13.5-14 1 8-3.5 13.5-13.5 14Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 18C9 13 12 10 17 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    </svg>
+
+    <div class="page-shell">
+      <header class="site-header">
+       <div class="header-inner">
+        <a class="brand-logo" href="index.html">
+          <img class="logo-symbol" src="assets/img/logo.png" width="64" height="49" alt="" />
+          <h1 class="brand-name">Alexane Thomas</h1>
+        </a>
+        <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
+          <span></span><span></span><span></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
+          <a href="index.html#apropos">Apprendre à me connaître</a>
+          <a href="prestations.html">Mes prestations</a>
+          <a href="osteopathie.html">Qu'est-ce que l'ostéopathie</a>
+          <a>Tarif</a>
+          <div class="nav-dropdown">
+            <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="nav-ressources">Ressources <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron" /></svg></button>
+            <div class="nav-sub" id="nav-ressources">
+              <a href="index.html#faq">Vos questions</a>
+              <a href="photos.html" aria-current="page">Photos</a>
+            </div>
+          </div>
+          <a class="nav-account" href="espace/connexion.html">Me connecter</a>
+          <a class="btn btn-primary nav-cta" href="#contact">Prendre rendez-vous</a>
+        </nav>
+        <div class="header-actions">
+          <a class="header-login btn-account" href="espace/connexion.html">Me connecter</a>
+          <a class="btn btn-primary btn-header" href="#contact">Prendre rendez-vous</a>
+        </div>
+       </div>
+      </header>
+
+      <main>
+        <section class="gallery-section photos-page">
+          <div class="section-intro photos-intro">
+            <p class="breadcrumb"><a href="index.html">Accueil</a><span>/</span>Photos</p>
+            <h2>En séance, <em>sur le terrain</em></h2>
+            <p>Écuries, élevages, salons : quelques moments partagés avec les animaux que j'accompagne. Touchez une photo pour l'agrandir.</p>
+            <div class="quicknav" role="group" aria-label="Filtrer les photos">
+              <button type="button" class="quicknav-pill photo-filter" data-filter="tout" aria-pressed="true">Toutes</button>
+              <button type="button" class="quicknav-pill photo-filter" data-filter="equides" aria-pressed="false">Équidés</button>
+              <button type="button" class="quicknav-pill photo-filter" data-filter="bovins" aria-pressed="false">Bovins</button>
+              <button type="button" class="quicknav-pill photo-filter" data-filter="chiens-chats" aria-pressed="false">Chiens et chats</button>
+              <button type="button" class="quicknav-pill photo-filter" data-filter="autres" aria-pressed="false">Autres animaux</button>
+            </div>
+          </div>
+          <div class="gallery-grid photo-gallery">
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas palpant le flanc d'une vache rousse à contre-jour dans une stabulation"><img src="assets/img/hero-contrejour.jpg" alt="Alexane Thomas palpant le flanc d'une vache rousse à contre-jour dans une stabulation" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas serrant contre elle la tête d'un cheval pie au coucher du soleil"><img src="assets/img/equides-calin.jpg" alt="Alexane Thomas serrant contre elle la tête d'un cheval pie au coucher du soleil" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="chiens-chats">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas réalisant une mobilisation douce sur un chien couché sur le dos"><img src="assets/img/chien-seance.jpg" alt="Alexane Thomas réalisant une mobilisation douce sur un chien couché sur le dos" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="autres">
+              <button type="button" class="photo-open" aria-label="Agrandir : Examen ostéopathique du dos d'un alpaga en présence de sa propriétaire"><img src="assets/img/gallery-alpaga.jpg" alt="Examen ostéopathique du dos d'un alpaga en présence de sa propriétaire" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Séance d'ostéopathie sur la tête d'un poney, mains posées de part et d'autre du chanfrein"><img src="assets/img/hero-poney.jpg" alt="Séance d'ostéopathie sur la tête d'un poney, mains posées de part et d'autre du chanfrein" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas au contact d'une vache, moment de confiance en élevage"><img src="assets/img/about-vache.jpg" alt="Alexane Thomas au contact d'une vache, moment de confiance en élevage" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="chiens-chats">
+              <button type="button" class="photo-open" aria-label="Agrandir : Chat roux câliné, exemple de suivi pour chiens et chats"><img src="assets/img/gallery-chat.jpg" alt="Chat roux câliné, exemple de suivi pour chiens et chats" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas, la main posée sur le flanc d'un cheval pie noir et blanc, en pleine palpation"><img src="assets/img/gallery-cheval-pie.jpg" alt="Alexane Thomas, la main posée sur le flanc d'un cheval pie noir et blanc, en pleine palpation" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas au contact d'un veau, moment tout en douceur"><img src="assets/img/gallery-veau-biberon.jpg" alt="Alexane Thomas au contact d'un veau, moment tout en douceur" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="autres">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas, les mains posées sur le dos d'une chèvre au cornadis"><img src="assets/img/gallery-chevre.jpg" alt="Alexane Thomas, les mains posées sur le dos d'une chèvre au cornadis" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas en séance d'ostéopathie sur un âne, les mains posées sur son garrot"><img src="assets/img/equides-ane.jpg" alt="Alexane Thomas en séance d'ostéopathie sur un âne, les mains posées sur son garrot" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas accroupie en stabulation, la main posée sur la tête d'une vache limousine"><img src="assets/img/service-vache.jpg" alt="Alexane Thomas accroupie en stabulation, la main posée sur la tête d'une vache limousine" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="chiens-chats">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas auprès d'un chat tigré installé dans sa caisse de transport"><img src="assets/img/gallery-chat-tigre.jpg" alt="Alexane Thomas auprès d'un chat tigré installé dans sa caisse de transport" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas, les mains posées sur l'épaule et le flanc d'un cheval crème au pré"><img src="assets/img/gallery-cheval-blanc.jpg" alt="Alexane Thomas, les mains posées sur l'épaule et le flanc d'un cheval crème au pré" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas, les yeux fermés, appuyée sur le dos d'une vache à poil long roux"><img src="assets/img/gallery-vache-rousse.jpg" alt="Alexane Thomas, les yeux fermés, appuyée sur le dos d'une vache à poil long roux" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas tenant un cheval en longe dans une carrière, la main posée sur son encolure"><img src="assets/img/service-cheval.jpeg" alt="Alexane Thomas tenant un cheval en longe dans une carrière, la main posée sur son encolure" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas penchée sur la tête d'une vache Prim'Holstein, une main sur son front"><img src="assets/img/gallery-vache-tete.jpg" alt="Alexane Thomas penchée sur la tête d'une vache Prim'Holstein, une main sur son front" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas mobilisant le postérieur d'un cheval pie dans une carrière boueuse"><img src="assets/img/gallery-cheval-sabot.jpg" alt="Alexane Thomas mobilisant le postérieur d'un cheval pie dans une carrière boueuse" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas tenant une vache noire au licol, la main sur sa tête, dans une stabulation"><img src="assets/img/service-bovins.jpg" alt="Alexane Thomas tenant une vache noire au licol, la main sur sa tête, dans une stabulation" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="equides">
+              <button type="button" class="photo-open" aria-label="Agrandir : Chevaux au pré au moment du foin"><img src="assets/img/gallery-chevaux.jpg" alt="Chevaux au pré au moment du foin" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas mobilisant la queue d'une vache Prim'Holstein, une main sur sa croupe"><img src="assets/img/gallery-vache-holstein.jpg" alt="Alexane Thomas mobilisant la queue d'une vache Prim'Holstein, une main sur sa croupe" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas agenouillée dans la paille, la main posée sur la tête d'une vache limousine au cornadis"><img src="assets/img/process-palpation.jpg" alt="Alexane Thomas agenouillée dans la paille, la main posée sur la tête d'une vache limousine au cornadis" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas en stabulation, mobilisant la queue d'une vache rousse à contre-jour"><img src="assets/img/gallery-vache-queue-rousse.jpg" alt="Alexane Thomas en stabulation, mobilisant la queue d'une vache rousse à contre-jour" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas souriante, travaillant sur la queue d'une vache dans une étable"><img src="assets/img/gallery-vache-stabulation.jpg" alt="Alexane Thomas souriante, travaillant sur la queue d'une vache dans une étable" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas en stabulation, mobilisant la queue d'une vache, une main posée sur sa croupe"><img src="assets/img/prestations-bovins.jpg" alt="Alexane Thomas en stabulation, mobilisant la queue d'une vache, une main posée sur sa croupe" loading="lazy" /></button>
+            </figure>
+            <figure class="gallery-item photo-item" data-cat="bovins">
+              <button type="button" class="photo-open" aria-label="Agrandir : Alexane Thomas en stabulation, mobilisant la queue d'une vache montbéliarde"><img src="assets/img/gallery-vache-queue.jpg" alt="Alexane Thomas en stabulation, mobilisant la queue d'une vache montbéliarde" loading="lazy" /></button>
+            </figure>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer" id="contact">
+        <div class="footer-inner">
+          <div class="footer-cta">
+            <div>
+              <h2>Prête à prendre soin de votre compagnon</h2>
+            </div>
+            <a class="btn btn-light" href="#contact">Prendre rendez-vous</a>
+          </div>
+
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <a class="brand-logo" href="index.html">
+                <img class="logo-symbol" src="assets/img/logo-light.png" width="64" height="49" alt="" />
+                <span class="brand-name">Alexane Thomas</span>
+              </a>
+              <p>Ostéopathe animalier diplômée. Chevaux, bovins, chiens, chats et NAC, à domicile, en écurie et en élevage autour de Bayonne, Biarritz et Anglet.</p>
+            </div>
+
+            <nav class="footer-col" aria-label="Liens de pied de page">
+              <h3>Navigation</h3>
+              <ul>
+                <li><a href="index.html#apropos">Apprendre à me connaître</a></li>
+                <li><a href="prestations.html">Mes prestations</a></li>
+                <li><a href="osteopathie.html">Qu'est-ce que l'ostéopathie</a></li>
+                <li><span>Tarif</span></li>
+                <li><a href="index.html#faq">Vos questions</a></li>
+                <li><a href="photos.html">Photos</a></li>
+              </ul>
+            </nav>
+
+            <div class="footer-col">
+              <h3>Contact</h3>
+              <ul class="footer-contact">
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24"><use href="#icon-phone" /></svg>
+                  <a href="tel:+33781787830">07 81 78 78 30</a>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24"><use href="#icon-mail" /></svg>
+                  <a href="mailto:Alexaneosteoanimalier@gmail.com">Alexaneosteoanimalier@gmail.com</a>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24"><use href="#icon-map" /></svg>
+                  <span>Bayonne, Pyrénées-Atlantiques · rayon 50 km</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <p>© 2026 Alexane Thomas, ostéopathe animalier · SIRET [à compléter]</p>
+            <p>Consultation soumise à examen vétérinaire préalable, conformément à la réglementation en vigueur.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo agrandie">
+      <button type="button" class="lightbox-close" aria-label="Fermer">×</button>
+      <button type="button" class="lightbox-nav lightbox-prev" aria-label="Photo précédente">‹</button>
+      <figure><img alt="" /><figcaption></figcaption></figure>
+      <button type="button" class="lightbox-nav lightbox-next" aria-label="Photo suivante">›</button>
+    </div>
+    <script src="js/app.js?v=20261128a"></script>
+  </body>
+</html>
