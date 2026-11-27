@@ -15,7 +15,7 @@ window.ESPACE_CONFIG = {
 
   // Coordonnées affichées aux clients
   PRATICIENNE: 'Alexane Thomas',
-  TELEPHONE: '06 12 34 56 78',
+  TELEPHONE: '07 81 78 78 30',
   EMAIL: 'Alexaneosteoanimalier@gmail.com',
   SITE_URL: '../index.html'
 };
