@@ -208,13 +208,14 @@
     });
   }
 
-  function newModal(clientId, date) {
-    if (!clients.length) return toast('Aucun client inscrit pour le moment.');
+  function newModal(clientId, date, time) {
+    // Pas encore de client : on commence par le créer, puis on revient au rendez-vous
+    if (!clients.length) return newClientModal((p) => newModal(p.id, date, time));
     const m = openModal('Nouveau rendez-vous', `
-      <div class="field"><label for="n-c">Client</label><select class="inp" id="n-c" name="client_id">${clients.map((c) => `<option value="${c.id}" ${c.id === clientId ? 'selected' : ''}>${esc(c.full_name || c.email)}</option>`).join('')}</select></div>
+      <div class="field"><label for="n-c">Client</label><select class="inp" id="n-c" name="client_id"><option value="__nouveau">+ Nouveau client…</option>${clients.map((c) => `<option value="${c.id}" ${c.id === clientId ? 'selected' : ''}>${esc(c.full_name || c.email)}</option>`).join('')}</select></div>
       <div class="field"><label for="n-a">Animal</label><select class="inp" id="n-a" name="animal_id"></select><span class="hint" id="n-a-hint"></span></div>
       <div class="row2"><div class="field"><label for="n-d">Date</label><input class="inp" id="n-d" type="date" name="date" required value="${date || localDate(new Date(Date.now() + 864e5).toISOString())}"></div>
-      <div class="field"><label for="n-t">Heure</label><input class="inp" id="n-t" type="time" name="time" required value="09:00"></div></div>
+      <div class="field"><label for="n-t">Heure</label><input class="inp" id="n-t" type="time" name="time" required value="${time || '09:00'}"></div></div>
       <div class="row2"><div class="field"><label for="n-du">Durée</label><select class="inp" id="n-du" name="duration_min">${[30, 45, 60, 75, 90, 120].map((x) => `<option ${x === 60 ? 'selected' : ''} value="${x}">${x} min</option>`).join('')}</select></div>
       <div class="field"><label for="n-l">Lieu</label><input class="inp" id="n-l" name="location"></div></div>
       <div class="field"><label for="n-r">Motif</label><input class="inp" id="n-r" name="reason"></div>
@@ -224,7 +225,17 @@
       toast('Rendez-vous ajouté'); await load();
     }, 'Ajouter');
     const sel = $('#n-c', m.form);
+    if (!clientId || !clients.some((c) => c.id === clientId)) sel.value = clients[0].id;
+    let precedent = sel.value;
     const fill = () => {
+      if (sel.value === '__nouveau') {
+        // Nouveau client : on garde la date et l'heure choisies, on crée le client, puis retour au rendez-vous
+        const d = $('#n-d', m.form).value, t = $('#n-t', m.form).value;
+        sel.value = precedent;
+        m.close();
+        return newClientModal((p) => newModal(p.id, d, t), () => newModal(precedent, d, t));
+      }
+      precedent = sel.value;
       const c = clients.find((x) => x.id === sel.value); const an = animals.filter((a) => a.owner_id === sel.value);
       $('#n-a', m.form).innerHTML = an.length ? animalOptions(an) : '<option value="">(aucun animal enregistré)</option>';
       $('#n-a-hint', m.form).textContent = an.length ? '' : 'Ce client n\'a pas encore ajouté d\'animal.';
@@ -248,7 +259,9 @@
     </details>`;
   }
 
-  function newClientModal() {
+  // onDone(client) : appelé après la création (ex. retour au nouveau rendez-vous) ; onCancel : si on annule
+  function newClientModal(onDone, onCancel) {
+    let cree = false;
     const m = openModal('Ajouter un client', `
       <div class="row2"><div class="field"><label for="nc-p">Prénom *</label><input class="inp" id="nc-p" name="prenom" required autocomplete="off"></div>
       <div class="field"><label for="nc-n">Nom *</label><input class="inp" id="nc-n" name="nom" required autocomplete="off"></div></div>
@@ -271,7 +284,14 @@
       const p = await API.createClient({ prenom: v('prenom'), nom: v('nom'), email: v('email'), telephone: v('telephone'), adresse: v('adresse'), code_postal: v('code_postal'), ville: v('ville'), notes: v('notes'), animaux });
       toast(!API.demo ? `${p.full_name} ajouté(e)` : p.surDisque ? `${p.full_name} ajouté(e), dossier créé dans Consultation` : `${p.full_name} ajouté(e) (serveur local éteint : dossier Consultation non créé)`);
       await load();
+      cree = true;
+      if (onDone) setTimeout(() => onDone(clients.find((c) => c.id === p.id) || p), 0);
     }, 'Ajouter le client');
+    if (onCancel) {
+      // Fermé sans créer (Annuler, Échap, clic à côté) : on revient au rendez-vous en cours
+      const bg = m.form.parentNode;
+      new MutationObserver((_, obs) => { if (!bg.isConnected) { obs.disconnect(); if (!cree) onCancel(); } }).observe(document.body, { childList: true });
+    }
     const box = $('#ncAnimals', m.form);
     const sync = () => {
       $$('[data-animal-block]', box).forEach((b, i) => { const n = $('[data-f="nom"]', b).value.trim(); $('[data-animal-title]', b).textContent = n || `Animal ${i + 1}`; });
