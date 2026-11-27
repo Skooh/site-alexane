@@ -19,7 +19,7 @@ const localDate = (iso) => { const d = new Date(iso); return `${d.getFullYear()}
 const localTime = (iso) => { const d = new Date(iso); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
 const toIso = (date, time) => new Date(`${date}T${time || '09:00'}`).toISOString();
 const animalAge = (a) => age(a.birth_date) || a.age_text || '';
-const KINDS = { fiche: 'Fiche de consultation', 'a-traiter': 'Feuille déposée, visible par vous seule', 'fiche-a-verifier': 'Fiche générée à vérifier, visible par vous seule', ordonnance: 'Ordonnance', radio: 'Radio / imagerie', autre: 'Document' };
+const KINDS = { fiche: 'Fiche de consultation', ordonnance: 'Ordonnance', radio: 'Radio / imagerie', autre: 'Document' };
 const fmtDate = (d) => d ? new Date(d.length === 10 ? d + 'T12:00' : d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
 
 // Dossier d'un animal : ses rendez-vous (dates) et ses documents, du plus récent au plus ancien.
@@ -31,35 +31,16 @@ function dossierHtml(animal, rdvs, docs, opts = {}) {
   const docLine = (d) => {
     const meta = `${esc(KINDS[d.kind] || 'Document')}${d.doc_date ? ' · ' + esc(fmtDate(d.doc_date)) : ''}`;
     const open = (label = 'Ouvrir') => `<button type="button" class="btn btn-secondary btn-sm" data-open-doc="${d.id}">${label}</button>`;
-    let icon = '📄', extra = '', actions = open();
-    if (d.kind === 'a-traiter') {
-      icon = '📝';
-      if (d.etat === 'en-cours') {
-        icon = '⏳';
-        extra = `<small class="working" data-progress="${esc(d.file || '')}">${esc(d.message || 'Mise au propre en cours…')}</small><small>Comptez 4 à 6 minutes. Vous pouvez fermer cette fenêtre : la fiche apparaîtra « à vérifier » une fois prête.</small>`;
-        actions = '';
-      } else if (d.etat === 'erreur') {
-        extra = `<small class="failed">⚠ ${esc(d.message || 'La mise au propre a échoué.')}</small>`;
-        actions = `<button type="button" class="btn btn-primary btn-sm" data-clean="${d.id}">Réessayer</button>${open('Voir')}`;
-      } else {
-        actions = `<button type="button" class="btn btn-primary btn-sm" data-clean="${d.id}">Mettre au propre</button><button type="button" class="link-btn" data-open-doc="${d.id}">voir</button>`;
-      }
-    } else if (d.kind === 'fiche-a-verifier') {
-      icon = '🔎';
-      extra = '<small>Relisez la fiche, puis validez-la : elle sera alors visible par le client.</small>';
-      actions = `${open()}<button type="button" class="btn btn-primary btn-sm" data-validate="${d.id}">Valider</button><button type="button" class="btn btn-secondary btn-sm" data-redo="${d.id}">Refaire</button>`;
-    } else if (d.kind === 'fiche') {
-      extra = '<small class="verified">✓ Consultation vérifiée</small>';
-    }
+    let extra = '', actions = open();
+    if (d.kind === 'fiche') extra = '<small class="verified">✓ Consultation vérifiée</small>';
     if (opts.admin && !d.url) actions += `<button type="button" class="btn btn-danger btn-sm" data-del-doc="${d.id}" aria-label="Supprimer ${esc(d.title)}">✕</button>`;
-    return `<div class="item${d.kind === 'a-traiter' || d.kind === 'fiche-a-verifier' ? ' pending' : ''}"><div class="date" style="font-size:22px;padding:8px 0">${icon}</div><div class="grow"><b>${esc(d.title)}</b><small>${meta}</small>${extra}</div>
+    return `<div class="item"><div class="date" style="font-size:22px;padding:8px 0">📄</div><div class="grow"><b>${esc(d.title)}</b><small>${meta}</small>${extra}</div>
       <div class="actions">${actions}</div></div>`;
   };
   return `<h3 class="sub-title">Rendez-vous</h3>
     ${mine.length ? mine.map((r) => `<div class="item">${dateChip(r.starts_at)}<div class="grow"><b>${esc(r.reason || 'Consultation')}</b><small>${esc(rdvWhen(r))}</small>${r.admin_note ? `<small style="color:var(--brown-dark)">💬 ${esc(r.admin_note)}</small>` : ''}<div style="margin-top:4px">${statusBadge(r.status)}</div></div>
       ${ds.filter((d) => d.appointment_id === r.id).map((d) => `<div class="actions"><button type="button" class="btn btn-secondary btn-sm" data-open-doc="${d.id}">📄 Fiche</button></div>`).join('')}</div>`).join('') : '<p class="empty">Aucun rendez-vous.</p>'}
-    <h3 class="sub-title sub-title-row"><span>Documents ${opts.admin ? `<button type="button" class="btn btn-primary btn-sm" data-add-doc="${animal.id}" style="margin-left:8px">Ajouter</button>` : ''}</span>
-      ${opts.admin ? `<button type="button" class="btn btn-secondary btn-sm" data-gen-sheet="${animal.id}">✦ Générer ma fiche</button>` : ''}</h3>
+    <h3 class="sub-title sub-title-row"><span>Documents ${opts.admin ? `<button type="button" class="btn btn-primary btn-sm" data-add-doc="${animal.id}" style="margin-left:8px">Ajouter</button>` : ''}</span></h3>
     ${ds.length ? ds.map(docLine).join('') : '<p class="empty">Aucun document pour le moment.</p>'}`;
 }
 

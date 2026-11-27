@@ -99,19 +99,11 @@
         if (c.notes) ok(await sb.from('client_records').upsert({ client_id: p.id, notes: c.notes }));
         return p;
       },
-      // Génération automatique des fiches : pour l'instant seulement sur le Mac (mode local).
-      // En ligne, Alexane peut valider une fiche « à vérifier » déjà importée.
-      async canDeposit() { return false; },
-      async refreshLocal() {},
-      async depositSheet() { throw new Error('La génération des fiches se fait pour l\'instant depuis l\'espace local du Mac.'); },
-      async sheetAction(action, doc) {
-        if (action !== 'valider') throw new Error('La génération et les corrections de fiche se font pour l\'instant depuis l\'espace local du Mac.');
-        ok(await sb.from('documents').update({ kind: 'fiche' }).eq('id', doc.id));
-      },
       // Import des données du Mac (mode local : localStorage + IndexedDB + fichiers de Consultation/)
       // vers Supabase, avec la session d'Alexane (admin). Relançable : chaque élément garde sa
       // référence locale (local_ref) et n'est créé qu'une fois.
       async importLocal(onProgress = () => {}) {
+        const KINDS_OK = ['fiche', 'ordonnance', 'radio', 'autre'];
         let db = null;
         try { db = JSON.parse(localStorage.getItem('espace-client-demo-v2') || 'null'); } catch (e) { /* rien */ }
         if (!db || !db.profiles) throw new Error('Aucune donnée locale : ouvrez d\'abord l\'espace en mode local (?mode=local) sur ce Mac.');
@@ -179,8 +171,7 @@
           ids.appointments[r.id] = row.id;
         }
 
-        // Fiches et documents (pas les feuilles en attente de mise au propre : elles restent sur le Mac)
-        const docs = db.documents.filter((d) => d.kind !== 'a-traiter' && ids.animals[d.animal_id] && ids.profiles[d.client_id]);
+        const docs = db.documents.filter((d) => ids.animals[d.animal_id] && ids.profiles[d.client_id]);
         for (const [i, d] of docs.entries()) {
           onProgress(`Document ${i + 1}/${docs.length} : ${d.title}`);
           const ref = 'doc:' + (d.url || d.id);
@@ -192,7 +183,7 @@
             const path = `${ids.profiles[d.client_id]}/${ids.animals[d.animal_id]}/${safeName(nom)}`;
             ok(await sb.storage.from('documents').upload(path, blob, { contentType: blob.type || 'application/pdf', upsert: true }));
             ok(await sb.from('documents').insert({ animal_id: ids.animals[d.animal_id], client_id: ids.profiles[d.client_id],
-              appointment_id: ids.appointments[d.appointment_id] || null, kind: d.kind || 'autre', title: d.title,
+              appointment_id: ids.appointments[d.appointment_id] || null, kind: KINDS_OK.includes(d.kind) ? d.kind : 'fiche', title: d.title,
               doc_date: /^\d{4}-\d{2}-\d{2}$/.test(d.doc_date || '') ? d.doc_date : null, file_path: path, local_ref: ref }));
             bilan.documents++;
           } catch (e) { bilan.erreurs.push(`${d.title} : ${e.message}`); }
@@ -426,36 +417,9 @@
 
       async documents(animalId) {
         need();
-        // Les feuilles « à mettre au propre » ne sont visibles que par Alexane
-        let l = db.documents.filter((d) => isAdmin() || (d.client_id === db.session && d.kind !== 'a-traiter' && d.kind !== 'fiche-a-verifier'));
+        let l = db.documents.filter((d) => isAdmin() || d.client_id === db.session);
         if (animalId) l = l.filter((d) => d.animal_id === animalId);
         return wait(l.sort((a, b) => (b.doc_date || '').localeCompare(a.doc_date || '')));
-      },
-      // Dépôt d'une feuille de consultation (photo/PDF) sur le disque, via le serveur local
-      // Mise au propre automatique : action = 'mettre-au-propre' | 'valider' | 'refaire'
-      // extra (refaire) : { consignes, pieces: [File] }
-      async sheetAction(action, doc, extra) {
-        needAdmin();
-        const an = db.animals.find((a) => a.id === doc.animal_id);
-        const owner = an && db.profiles.find((p) => p.id === an.owner_id);
-        if (!an || !an.folder || !owner || !owner.folder || !doc.file) throw new Error('Feuille introuvable dans Consultation/.');
-        let body;
-        if (extra) {
-          const toB64 = (f) => new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = ko; r.readAsDataURL(f); });
-          const pieces = [];
-          for (const f of extra.pieces || []) pieces.push({ nom: f.name, base64: await toB64(f) });
-          body = JSON.stringify({ consignes: extra.consignes || '', pieces });
-        }
-        const res = await fetch('/api/' + action, {
-          method: 'POST', body,
-          headers: { 'X-Depot': '1', 'X-Client': encodeURIComponent(owner.folder), 'X-Animal': encodeURIComponent(an.folder), 'X-Fichier': encodeURIComponent(doc.file), 'Content-Type': 'application/json' }
-        }).catch(() => { throw new Error('Serveur local injoignable : démarrez « Websitealexane ».'); });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.erreur || 'Action impossible.');
-        await this.refreshLocal();
-      },
-      async serverState() {
-        try { const r = await fetch('/api/etat', { cache: 'no-store' }); return r.ok ? r.json() : null; } catch (e) { return null; }
       },
       // Recharge les données de Consultation/ sans recharger la page
       async refreshLocal() {
@@ -464,23 +428,6 @@
           new Function(txt)();
           syncFromImport(); save();
         } catch (e) { /* données locales indisponibles : on garde l'état actuel */ }
-      },
-      async canDeposit() {
-        try { const r = await fetch('/api/etat', { cache: 'no-store' }); return r.ok && (await r.json()).depot === true; } catch (e) { return false; }
-      },
-      async depositSheet({ animal_id, file, doc_date }) {
-        needAdmin();
-        const an = db.animals.find((a) => a.id === animal_id);
-        const owner = an && db.profiles.find((p) => p.id === an.owner_id);
-        if (!an || !an.folder || !owner || !owner.folder) throw new Error('Cet animal n\'a pas de dossier dans Consultation/.');
-        const res = await fetch('/api/depot', {
-          method: 'POST', body: file,
-          headers: { 'X-Depot': '1', 'X-Client': encodeURIComponent(owner.folder), 'X-Animal': encodeURIComponent(an.folder), 'X-Nom': encodeURIComponent(file.name), 'X-Date': doc_date || '' }
-        }).catch(() => { throw new Error('Serveur local injoignable : lancez « Site Alexane » ou le bouton Démarrer de Websitealexane.'); });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.erreur || 'Dépôt impossible.');
-        const d = { id: id(), animal_id: an.id, client_id: owner.id, appointment_id: null, kind: 'a-traiter', title: 'Feuille à mettre au propre (' + data.title + ')', doc_date: data.doc_date, url: data.url, created_at: new Date().toISOString() };
-        db.documents.push(d); save(); return wait(d);
       },
       async documentUrl(doc) {
         if (doc.url) return doc.url;

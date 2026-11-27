@@ -178,6 +178,31 @@
     });
   }
 
+  // Modifier les coordonnées d'un client. L'email d'un client qui a déjà un compte est son identifiant
+  // de connexion : il ne se change pas ici.
+  function editClientModal(c) {
+    const aUnCompte = API.demo ? !!c.pw_sha256 : c.has_account !== false;
+    openModal('Coordonnées de ' + (c.full_name || c.email || 'ce client'), `
+      <div class="field"><label for="ec-n">Nom et prénom *</label><input class="inp" id="ec-n" name="full_name" required value="${esc(c.full_name)}"></div>
+      <div class="field"><label for="ec-e">Adresse mail</label><input class="inp" id="ec-e" type="email" name="email" value="${esc(c.email)}" ${aUnCompte ? 'disabled' : ''}>
+        ${aUnCompte ? '<span class="hint">C\'est l\'identifiant de connexion du client : il ne se modifie pas ici.</span>' : '<span class="hint">Quand le client créera son compte avec cette adresse, il retrouvera ses animaux et ses fiches.</span>'}</div>
+      <div class="field"><label for="ec-t">Téléphone</label><input class="inp" id="ec-t" type="tel" name="phone" value="${esc(c.phone)}"></div>
+      <div class="field"><label for="ec-a">Adresse postale</label><textarea class="inp" id="ec-a" name="address" rows="2" placeholder="N° et rue, code postal, ville">${esc(c.address)}</textarea></div>`,
+    async (fd) => {
+      const patch = { full_name: fd.get('full_name').trim(), phone: fd.get('phone').trim() || null, address: fd.get('address').trim() || null };
+      if (!patch.full_name) throw new Error('Indiquez le nom du client.');
+      if (!aUnCompte) {
+        const email = (fd.get('email') || '').trim().toLowerCase();
+        if (email && clients.some((x) => x.id !== c.id && (x.email || '').toLowerCase() === email)) throw new Error('Un autre client a déjà cette adresse mail.');
+        patch.email = email || null;
+      }
+      await API.updateProfile(c.id, patch);
+      toast('Coordonnées enregistrées');
+      await load();
+      clientModal(clients.find((x) => x.id === c.id) || { ...c, ...patch });
+    });
+  }
+
   async function clientModal(c) {
     const an = animals.filter((a) => a.owner_id === c.id);
     const rs = rdvs.filter((r) => r.client_id === c.id).reverse();
@@ -185,6 +210,7 @@
     const m = openModal(c.full_name || c.email || 'Client', `
       <p style="margin-top:0">${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a><br>` : ''}${c.phone ? `<a href="tel:${esc(c.phone.replace(/\s/g, ''))}">${esc(c.phone)}</a><br>` : ''}${esc(c.address || '')}
         ${!c.email && !c.phone ? '<span class="hint">Coordonnées à compléter.</span>' : ''}</p>
+      <p style="margin-top:-6px"><button type="button" class="btn btn-secondary btn-sm" id="cEdit">Modifier les coordonnées</button></p>
       <div class="private"><label for="cn" class="private-label">🔒 Notes privées sur le client</label><textarea class="inp" id="cn" name="notes" placeholder="Visibles uniquement par vous">${esc(rec.notes)}</textarea>
         <div class="form-actions" style="margin-top:6px"><button type="button" class="btn btn-secondary btn-sm" id="cnSave">Enregistrer la note</button></div></div>
       <h3 class="sub-title">Animaux</h3>
@@ -194,6 +220,7 @@
       ${rs.length ? rs.map((r) => `<div class="item">${dateChip(r.starts_at)}<div class="grow"><b>${esc(r.animal?.name || 'Animal')} · ${esc(r.reason || 'Consultation')}</b><small>${esc(rdvWhen(r))}</small>${r.admin_note ? `<small style="color:var(--brown-dark)">💬 ${esc(r.admin_note)}</small>` : ''}<div>${statusBadge(r.status)}</div></div></div>`).join('') : '<p class="empty">Aucun rendez-vous.</p>'}
       <p><button type="button" class="btn btn-primary btn-sm" id="cNew">Nouveau rendez-vous pour ce client</button></p>`, null);
     $('#cNew', m.form).onclick = () => { m.close(); newModal(c.id); };
+    $('#cEdit', m.form).onclick = () => { m.close(); editClientModal(c); };
     $('#cnSave', m.form).onclick = async () => { await API.saveClientRecord(c.id, { notes: $('#cn', m.form).value.trim() || null }); toast('Note enregistrée'); };
   }
 
@@ -219,32 +246,12 @@
     };
   }
 
-  // Dépôt d'une feuille de consultation (photo ou PDF) dans Consultation/<client>/<animal>/à traiter/
-  async function depositModal(a) {
-    if (!(await API.canDeposit())) {
-      return toast('Le dépôt passe par le serveur local : démarrez « Websitealexane » (ou « Site Alexane »), puis rouvrez l\'espace via http://localhost:8000/.');
-    }
-    const mine = rdvs.filter((r) => r.animal_id === a.id).sort((x, y) => y.starts_at.localeCompare(x.starts_at));
-    const last = mine.find((r) => r.status === 'done' || r.starts_at <= new Date().toISOString());
-    openModal('Déposer une feuille pour ' + a.name, `
-      <div class="field"><label for="dp-f">Photo ou PDF de la feuille *</label><input class="inp" id="dp-f" type="file" name="file" accept="application/pdf,image/*" required>
-        <span class="hint">Sur téléphone, vous pouvez prendre la photo directement.</span></div>
-      <div class="field"><label for="dp-d">Date de la consultation</label><input class="inp" id="dp-d" type="date" name="doc_date" value="${last ? localDate(last.starts_at) : localDate(new Date().toISOString())}"></div>
-      <p class="hint" style="margin:0">Elle reste visible par vous seule (« à mettre au propre ») jusqu'à ce que la fiche au bon modèle soit créée.</p>`,
-    async (fd) => {
-      const f = fd.get('file');
-      if (!f || !f.size) throw new Error('Choisissez un fichier.');
-      await API.depositSheet({ animal_id: a.id, file: f, doc_date: fd.get('doc_date') || null });
-      toast('Feuille déposée'); await load(); animalFileModal(a);
-    }, 'Déposer');
-  }
-
-  // « Ajouter » (comme avant) : un document tel quel : fiche déjà au propre, ordonnance, radio…
+  // « Ajouter » : un document (fiche de consultation, ordonnance, radio…)
   function addDocModal(a) {
     const mine = rdvs.filter((r) => r.animal_id === a.id).sort((x, y) => y.starts_at.localeCompare(x.starts_at));
     openModal('Ajouter un document pour ' + a.name, `
       <div class="field"><label for="ad-f">Fichier (PDF ou image) *</label><input class="inp" id="ad-f" type="file" name="file" accept="application/pdf,image/*" required></div>
-      <div class="row2"><div class="field"><label for="ad-k">Type</label><select class="inp" id="ad-k" name="kind">${Object.entries(KINDS).filter(([k]) => k !== 'a-traiter' && k !== 'fiche-a-verifier').map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></div>
+      <div class="row2"><div class="field"><label for="ad-k">Type</label><select class="inp" id="ad-k" name="kind">${Object.entries(KINDS).map(([k, l]) => `<option value="${k}">${l}</option>`).join('')}</select></div>
       <div class="field"><label for="ad-d">Date</label><input class="inp" id="ad-d" type="date" name="doc_date" value="${localDate(new Date().toISOString())}"></div></div>
       <div class="field"><label for="ad-t">Titre</label><input class="inp" id="ad-t" name="title" placeholder="Par défaut : le nom du fichier"></div>
       <div class="field"><label for="ad-r">Rendez-vous associé</label><select class="inp" id="ad-r" name="appointment_id"><option value="">Aucun</option>${mine.map((r) => `<option value="${r.id}">${esc(fmtDate(r.starts_at))} · ${esc(r.reason || 'Consultation')}</option>`).join('')}</select></div>
@@ -258,79 +265,10 @@
     }, 'Ajouter');
   }
 
-  // « Générer ma fiche » : photo/PDF de la feuille + date -> mise au propre automatique avec le modèle
-  function genSheetModal(a) {
-    const mine = rdvs.filter((r) => r.animal_id === a.id).sort((x, y) => y.starts_at.localeCompare(x.starts_at));
-    const last = mine.find((r) => r.status === 'done' || r.starts_at <= new Date().toISOString());
-    openModal('Générer la fiche de ' + a.name, `
-      <div class="field"><label for="gs-f">Photo ou PDF de la feuille de consultation *</label><input class="inp" id="gs-f" type="file" name="file" accept="application/pdf,image/*" required>
-        <span class="hint">Sur téléphone, vous pouvez prendre la photo directement.</span></div>
-      <div class="field"><label for="gs-d">Date de la consultation</label><input class="inp" id="gs-d" type="date" name="doc_date" value="${last ? localDate(last.starts_at) : localDate(new Date().toISOString())}"></div>
-      <p class="hint" style="margin:0">La fiche est générée automatiquement avec le modèle (quelques minutes). Vous la relirez avant qu'elle soit visible par le client.</p>`,
-    async (fd) => {
-      const f = fd.get('file');
-      if (!f || !f.size) throw new Error('Choisissez un fichier.');
-      if (!(await API.canDeposit())) throw new Error('La génération passe par le serveur local : démarrez « Websitealexane », puis rouvrez l\'espace via http://localhost:8000/.');
-      const dep = await API.depositSheet({ animal_id: a.id, file: f, doc_date: fd.get('doc_date') || null });
-      await API.refreshLocal(); await load();
-      const doc = docs.find((x) => x.url === dep.url) || docs.find((x) => x.kind === 'a-traiter' && x.animal_id === a.id && x.etat !== 'en-cours');
-      if (doc) await API.sheetAction('mettre-au-propre', doc);
-      toast('Feuille reçue : génération de la fiche en cours');
-      await load(); animalFileModal(a);
-    }, 'Générer');
-  }
-
-  // Refaire : à gauche la fiche générée, à droite les corrections à apporter (texte + pièces jointes)
-  function redoModal(doc) {
-    const a = animals.find((x) => x.id === doc.animal_id);
-    const m = openModal('Corriger la fiche' + (a ? ' de ' + a.name : ''), `
-      <div class="split">
-        <div class="split-left"><iframe src="${esc(doc.url)}#navpanes=0&view=FitH" title="Fiche générée"></iframe></div>
-        <div class="split-right">
-          <div class="field"><label for="rd-c">Ce qu'il faut corriger</label>
-            <textarea class="inp" id="rd-c" name="consignes" rows="12" placeholder="Ex. : la 3e dysfonction est « T16 » et non « T18 » ; déplacer le cercle de l'épaule plus haut ; ajouter « boiterie antérieur gauche » dans les visuels…"></textarea></div>
-          <div class="field"><label for="rd-f">Joindre des images ou des PDF</label>
-            <input class="inp" id="rd-f" type="file" name="pieces" accept="application/pdf,image/*" multiple>
-            <span class="hint">Par exemple une photo de la feuille annotée, ou un schéma.</span>
-            <ul class="pj" id="rd-list"></ul></div>
-          <p class="hint" style="margin:0">Claude repart de cette fiche et applique seulement vos corrections. La nouvelle version reviendra « à vérifier ».</p>
-        </div>
-      </div>`,
-    async (fd) => {
-      const consignes = (fd.get('consignes') || '').trim();
-      const pieces = fd.getAll('pieces').filter((f) => f && f.size);
-      if (!consignes && !pieces.length) throw new Error('Indiquez ce qu\'il faut corriger, ou joignez un fichier.');
-      if (pieces.reduce((n, f) => n + f.size, 0) > 25 * 1024 * 1024) throw new Error('Pièces jointes trop lourdes (25 Mo maximum).');
-      await API.sheetAction('refaire', doc, { consignes, pieces });
-      await load();
-      toast('Corrections envoyées : nouvelle mise au propre en cours');
-      if (a) animalFileModal(a);
-    }, 'Relancer la mise au propre');
-    m.form.classList.add('modal-wide');
-    $('#rd-f', m.form).onchange = (e) => {
-      $('#rd-list', m.form).innerHTML = [...e.target.files].map((f) => `<li>📎 ${esc(f.name)}</li>`).join('');
-    };
-  }
-
   document.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-confirm],[data-refuse],[data-done],[data-new],[data-new-client],[data-afilter],[data-client],[data-animal-file],[data-add-doc],[data-del-doc],[data-open-doc],[data-deposit],[data-clean],[data-validate],[data-redo],[data-gen-sheet]');
+    const t = e.target.closest('[data-confirm],[data-refuse],[data-done],[data-new],[data-new-client],[data-afilter],[data-client],[data-animal-file],[data-add-doc],[data-del-doc],[data-open-doc]');
     if (!t) return;
     const d = t.dataset; const find = (id) => rdvs.find((r) => r.id === id);
-    if (d.deposit) return depositModal(animals.find((a) => a.id === d.deposit));
-    if (d.genSheet) return genSheetModal(animals.find((a) => a.id === d.genSheet));
-    if (d.clean || d.validate || d.redo) {
-      const doc = docs.find((x) => x.id === (d.clean || d.validate || d.redo));
-      const action = d.clean ? 'mettre-au-propre' : d.validate ? 'valider' : 'refaire';
-      if (d.redo) return redoModal(doc);
-      t.disabled = true;
-      return API.sheetAction(action, doc)
-        .then(load)
-        .then(() => {
-          toast({ 'mettre-au-propre': 'Mise au propre lancée', valider: 'Consultation vérifiée : visible par le client', refaire: 'Nouvelle mise au propre lancée' }[action]);
-          animalFileModal(animals.find((a) => a.id === doc.animal_id));
-        })
-        .catch((err) => { t.disabled = false; toast(err.message); });
-    }
     if (d.openDoc) return openDocument(docs.find((x) => x.id === d.openDoc));
     if (d.animalFile) return animalFileModal(animals.find((a) => a.id === d.animalFile));
     if (d.addDoc) return addDocModal(animals.find((a) => a.id === d.addDoc));
@@ -362,7 +300,7 @@
     b.onclick = () => {
       const m = openModal('Importer les données du Mac', `
         <p style="margin-top:0">Envoie dans l'espace en ligne les clients, animaux, dossiers privés, rendez-vous et fiches de consultation de l'espace local de ce Mac.</p>
-        <p class="hint">Peut être relancé sans créer de doublons. Les feuilles en attente de mise au propre restent sur le Mac.</p>
+        <p class="hint">Peut être relancé sans créer de doublons : seuls les nouveaux éléments (par exemple une nouvelle fiche rangée dans Consultation/) sont envoyés.</p>
         <p id="impEtat" class="hint" style="color:var(--brown-dark)"></p>`,
       async () => {
         const etat = $('#impEtat', m.form);
@@ -374,26 +312,4 @@
     };
   }
 
-  // Suivi des mises au propre en cours : dès que le serveur a de nouvelles données, on les recharge
-  // et on rafraîchit le dossier ouvert.
-  const enCours = () => docs.filter((x) => x.kind === 'a-traiter' && x.etat === 'en-cours').length;
-  setInterval(async () => {
-    const avant = enCours();
-    if (!avant) return;
-    // Étape en direct, sans redessiner la fenêtre (pour ne pas effacer une saisie en cours)
-    try {
-      const pr = await (await fetch('/api/progression', { cache: 'no-store' })).json();
-      (pr.jobs || []).forEach((j) => {
-        $$('[data-progress]').filter((el) => el.dataset.progress === j.fichier).forEach((el) => { if (j.message) el.textContent = j.message; });
-      });
-    } catch (e) { /* serveur ancien : pas de progression détaillée */ }
-    await API.refreshLocal();
-    await load();
-    if (enCours() === avant) return;
-    // Une mise au propre vient de se terminer : on rafraîchit le dossier ouvert
-    const shown = animals.find((a) => $('.modal [data-add-doc="' + a.id + '"]'));
-    if (shown) animalFileModal(shown);
-    const echec = docs.some((x) => x.kind === 'a-traiter' && x.etat === 'erreur');
-    toast(echec ? 'La mise au propre a rencontré un problème : voir le dossier de l\'animal' : 'Fiche prête : à vérifier dans le dossier de l\'animal');
-  }, 5000);
 })();
