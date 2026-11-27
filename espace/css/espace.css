@@ -185,7 +185,7 @@ table.tbl tr.click:hover td{background:var(--page-bg)}
 .cal-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:6px}
 .cal-month{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--sand);border-radius:12px;overflow:hidden}
 .cal-head{font-size:12px;font-weight:600;color:var(--brown-mid);text-align:center;padding:6px 0;background:var(--band-bg)}
-.cal-day{min-height:96px;border-top:1px solid var(--sand);border-left:1px solid var(--sand);padding:4px;cursor:pointer;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cal-day{min-height:0;overflow:hidden;border-top:1px solid var(--sand);border-left:1px solid var(--sand);padding:4px;cursor:pointer;display:flex;flex-direction:column;gap:3px;min-width:0}
 .cal-day:nth-child(7n+1){border-left:0}
 .cal-day:hover{background:var(--page-bg)}
 .cal-day.out{background:#fcf8f3;color:#bba996}
@@ -207,7 +207,7 @@ table.tbl tr.click:hover td{background:var(--page-bg)}
 .cal-mini-day.has{background:var(--clay);color:#fff;font-weight:600}
 .cal-mini-day.today{outline:2px solid var(--clay);outline-offset:-2px}
 @media (max-width:640px){
-  .cal-day{min-height:58px;padding:2px}
+  .cal-day{padding:2px}
   .cal-ev{height:7px;padding:0;border-radius:4px}
   .cal-ev span{display:none}
   .cal-title{min-width:0;font-size:18px}

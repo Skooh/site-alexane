@@ -92,7 +92,25 @@
       }).join('') + '</div>';
     }
     $('#agendaCal').innerHTML = html;
+    ajusterCalendrier();
   }
+
+  // Le mois tient toujours dans la hauteur de l'écran (sans défilement) : les semaines se partagent
+  // la place restante sous le haut de la grille. En dessous d'une hauteur minimale, la page défile.
+  function ajusterCalendrier() {
+    requestAnimationFrame(() => {
+      const g = $('.cal-month'); if (!g || !g.offsetParent) return;
+      const semaines = (g.children.length - 7) / 7;
+      const haut = g.getBoundingClientRect().top + window.scrollY;
+      const marge = 64; // bas de la carte + petit espace
+      const dispo = window.innerHeight - haut - marge;
+      const tete = g.querySelector('.cal-head').offsetHeight;
+      const ligne = Math.max(window.innerWidth <= 640 ? 52 : 64, Math.floor((dispo - tete) / semaines));
+      g.style.gridTemplateRows = `${tete}px repeat(${semaines}, ${ligne}px)`;
+    });
+  }
+  window.addEventListener('resize', ajusterCalendrier);
+  document.addEventListener('click', (e) => { if (e.target.closest('[data-tab="agenda"]')) ajusterCalendrier(); });
 
   function render() {
     const req = rdvs.filter((r) => r.status === 'requested');
