@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/espace.css?v=202611271050">
+  <link rel="stylesheet" href="css/espace.css?v=202611271115">
 </head>
 <body>
   <header class="e-header">
@@ -70,9 +70,9 @@
   <footer class="e-footer">Besoin d'aide ? <span id="contactLine"></span></footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="js/config.js?v=202611271050"></script>
-  <script src="js/api.js?v=202611271050"></script>
-  <script src="js/ui.js?v=202611271050"></script>
+  <script src="js/config.js?v=202611271115"></script>
+  <script src="js/api.js?v=202611271115"></script>
+  <script src="js/ui.js?v=202611271115"></script>
   <script>
   (async function () {
     const C = window.ESPACE_CONFIG;
@@ -87,7 +87,8 @@
     const fermees = !API.demo && !cfgE.INSCRIPTIONS_OUVERTES;
     if (fermees) {
       $('#subtitle').textContent = 'Espace réservé. Connectez-vous avec le compte créé pour vous.';
-      $('#forgotBtn').parentElement.innerHTML = `<span class="hint">Mot de passe oublié ? Contactez Alexane${cfgE.TELEPHONE ? ' au ' + cfgE.TELEPHONE : ''}.</span>`;
+      const tel = cfgE.TELEPHONE ? ` au <a href="tel:${esc(cfgE.TELEPHONE.replace(/\s/g, ''))}" style="white-space:nowrap">${esc(cfgE.TELEPHONE)}</a>` : '';
+      $('#forgotBtn').parentElement.innerHTML = `<span class="hint">Mot de passe oublié ?<br>Contactez Alexane${tel}.</span>`;
     }
 
     function mode(m) {
