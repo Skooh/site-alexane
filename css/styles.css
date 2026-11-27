@@ -310,7 +310,9 @@ textarea {
      105px on narrow screens, which no height cap could predict. Starting the
      items makes the photo's top position deterministic: header + padding. */
   align-items: start;
-  align-content: center;
+  /* Rangée calée en haut (pas centrée) : sinon, quand le texte est plus haut que la
+     photo, la rangée descend et la photo déborde sous l'écran (1280x720). */
+  align-content: start;
   min-height: calc(100vh - 40px);
   padding: 32px 48px 72px;
   background: var(--page-bg);
@@ -367,11 +369,12 @@ textarea {
   margin: 0;
   /* Width drives the size, but on short viewports the vh term keeps the whole
      frame above the fold: 85px sticky header + 32px section padding-top +
-     33px of margin. This only holds because .hero-section starts its items
+     33px of margin below (150px in all; was 80px, which let the photo spill
+     38px below the fold on a 1512x780 laptop). This only holds because .hero-section starts its items
      rather than centring them, which pins the frame's top; see the note
      there. The 1.143 converts the remaining height back into a width via
      the 4/3.5 ratio below. */
-  width: min(100%, 1100px, calc((100vh - 80px) * 1.143));
+  width: min(100%, 1100px, calc((100vh - 150px) * 1.143));
   aspect-ratio: 4 / 3.5;
   /* Organic blob shape tuned for the hero photo's 4:3.5 crop; re-tune
      these values if the hero photo's aspect ratio changes. */
@@ -1673,7 +1676,7 @@ textarea {
   }
 
   .hero-photo-card {
-    width: min(100%, 580px, calc((100vh - 120px) * 1.143));
+    width: min(100%, 580px, calc((100vh - 150px) * 1.143));
   }
 }
 
@@ -2054,3 +2057,14 @@ textarea {
 
 /* Accueil : lien vers la page Photos sous la galerie */
 .gallery-more { display: flex; justify-content: center; margin-top: 48px; }
+
+/* Ordinateurs 1200-1440 px : le menu (avec « Ressources ») reste sur une seule ligne,
+   sinon l'en-tête double de hauteur et pousse la photo d'accueil sous l'écran. */
+@media (min-width: 1200px) and (max-width: 1440px) {
+  .site-nav { flex-wrap: nowrap; gap: 14px; }
+  .site-nav a, .nav-drop-btn { font-size: 13px; white-space: nowrap; }
+  .header-actions { gap: 14px; }
+}
+@media (min-width: 1200px) and (max-width: 1299px) {
+  .header-inner { padding-left: 32px; padding-right: 32px; }
+}
