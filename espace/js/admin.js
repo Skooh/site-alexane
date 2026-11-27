@@ -10,6 +10,11 @@
   $('#logout').onclick = async () => { await API.signOut(); location.replace('connexion.html'); };
 
   let rdvs = [], clients = [], animals = [], docs = [], afilter = 'upcoming', search = '';
+  // Agenda : vue calendrier (mois ou année) ou liste. Le choix d'affichage est gardé dans ce navigateur.
+  const memo = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
+  let aview = memo('agenda-vue') === 'list' ? 'list' : 'cal';
+  let cmode = memo('agenda-echelle') === 'annee' ? 'annee' : 'mois';
+  let cursor = new Date(); cursor.setDate(1);
   const now = () => new Date().toISOString();
   const clientName = (r) => r.client?.full_name || r.client?.email || 'Client';
 
@@ -27,6 +32,66 @@
       ${r.admin_note ? `<small style="color:var(--brown-dark)">💬 ${esc(r.admin_note)}</small>` : ''}
       <div style="margin-top:6px">${statusBadge(r.status)}</div></div>
       <div class="actions">${actions}</div></div>`;
+  }
+
+  // ---------- Agenda en calendrier ----------
+  const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const JOURS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+  const ymd = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  // Jours à afficher pour un mois : semaines complètes du lundi au dimanche
+  const grille = (y, m) => {
+    const debut = new Date(y, m, 1); debut.setDate(1 - ((debut.getDay() + 6) % 7));
+    const fin = new Date(y, m + 1, 0); fin.setDate(fin.getDate() + (6 - ((fin.getDay() + 6) % 7)));
+    const jours = []; for (const d = new Date(debut); d <= fin; d.setDate(d.getDate() + 1)) jours.push(new Date(d));
+    return jours;
+  };
+
+  function renderCalendar() {
+    $$('[data-aview]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.aview === aview)));
+    $('#agendaCal').hidden = aview !== 'cal';
+    $('#agendaListWrap').hidden = aview !== 'list';
+    if (aview !== 'cal') return;
+
+    const actifs = rdvs.filter((r) => r.status !== 'cancelled');
+    const parJour = {};
+    actifs.forEach((r) => { (parJour[localDate(r.starts_at)] ||= []).push(r); });
+    Object.values(parJour).forEach((l) => l.sort((a, b) => a.starts_at.localeCompare(b.starts_at)));
+    const auj = ymd(new Date());
+    const y = cursor.getFullYear(), m = cursor.getMonth();
+    const titre = cmode === 'annee' ? String(y) : `${MOIS[m].charAt(0).toUpperCase() + MOIS[m].slice(1)} ${y}`;
+    const total = actifs.filter((r) => { const d = new Date(r.starts_at); return d.getFullYear() === y && (cmode === 'annee' || d.getMonth() === m); }).length;
+
+    let html = `<div class="cal-bar">
+      <div class="cal-nav"><button type="button" class="btn btn-secondary btn-sm" data-cnav="prev" aria-label="${cmode === 'annee' ? 'Année précédente' : 'Mois précédent'}">‹</button>
+        <h3 class="cal-title">${titre}</h3>
+        <button type="button" class="btn btn-secondary btn-sm" data-cnav="next" aria-label="${cmode === 'annee' ? 'Année suivante' : 'Mois suivant'}">›</button>
+        <button type="button" class="link-btn" data-cnav="today">Aujourd'hui</button></div>
+      <div class="filters"><button class="chip" data-cmode="mois" aria-pressed="${cmode === 'mois'}">Mois</button><button class="chip" data-cmode="annee" aria-pressed="${cmode === 'annee'}">Année</button></div>
+    </div>
+    <p class="cal-total">${total ? `${total} rendez-vous ${cmode === 'annee' ? 'cette année' : 'ce mois-ci'}` : 'Aucun rendez-vous sur cette période'}
+      <span class="cal-legend"><i class="ev-confirmed"></i>confirmé <i class="ev-requested"></i>demande <i class="ev-done"></i>effectué</span></p>`;
+
+    if (cmode === 'mois') {
+      html += `<div class="cal-month">${JOURS.map((j) => `<div class="cal-head">${j}</div>`).join('')}` + grille(y, m).map((d) => {
+        const k = ymd(d), evs = parJour[k] || [];
+        const cls = ['cal-day', d.getMonth() !== m ? 'out' : '', k === auj ? 'today' : '', evs.length ? 'has' : ''].filter(Boolean).join(' ');
+        return `<div class="${cls}" data-cday="${k}" title="Nouveau rendez-vous le ${d.toLocaleDateString('fr-FR')}"><span class="cal-num">${d.getDate()}</span>
+          ${evs.slice(0, 3).map((r) => `<button type="button" class="cal-ev ev-${r.status}" data-cev="${r.id}" title="${esc(`${r.time_unknown ? '' : fmtTime(r.starts_at) + ' · '}${r.animal?.name || ''} · ${clientName(r)} · ${STATUS[r.status] || ''}`)}">
+            <span>${r.time_unknown ? '' : esc(fmtTime(r.starts_at)) + ' '}${esc(r.animal?.name || clientName(r))}</span></button>`).join('')}
+          ${evs.length > 3 ? `<span class="cal-more">+${evs.length - 3}</span>` : ''}</div>`;
+      }).join('') + '</div>';
+    } else {
+      html += '<div class="cal-year">' + MOIS.map((nom, mo) => {
+        const n = actifs.filter((r) => { const d = new Date(r.starts_at); return d.getFullYear() === y && d.getMonth() === mo; }).length;
+        return `<div class="cal-mini"><button type="button" class="cal-mini-title" data-cmonth="${y}-${mo + 1}">${nom.charAt(0).toUpperCase() + nom.slice(1)}${n ? ` <small>${n} RDV</small>` : ''}</button>
+          <div class="cal-mini-grid">${JOURS.map((j) => `<span class="cal-head">${j[0]}</span>`).join('')}${grille(y, mo).map((d) => {
+            const k = ymd(d), c = (parJour[k] || []).length;
+            if (d.getMonth() !== mo) return '<span></span>';
+            return `<button type="button" class="cal-mini-day${c ? ' has' : ''}${k === auj ? ' today' : ''}" data-cmonth="${y}-${mo + 1}" title="${c ? c + ' rendez-vous' : ''}">${d.getDate()}</button>`;
+          }).join('')}</div></div>`;
+      }).join('') + '</div>';
+    }
+    $('#agendaCal').innerHTML = html;
   }
 
   function render() {
@@ -51,6 +116,7 @@
       html += line(r, acts);
     });
     $('#agendaList').innerHTML = html || '<p class="empty">Rien à afficher.</p>';
+    renderCalendar();
 
     const q = search.toLowerCase();
     const rows = clients.filter((c) => !q || (c.full_name || '').toLowerCase().includes(q) || (c.email || '').toLowerCase().includes(q) || animals.some((a) => a.owner_id === c.id && a.name.toLowerCase().includes(q)));
@@ -97,12 +163,12 @@
     });
   }
 
-  function newModal(clientId) {
+  function newModal(clientId, date) {
     if (!clients.length) return toast('Aucun client inscrit pour le moment.');
     const m = openModal('Nouveau rendez-vous', `
       <div class="field"><label for="n-c">Client</label><select class="inp" id="n-c" name="client_id">${clients.map((c) => `<option value="${c.id}" ${c.id === clientId ? 'selected' : ''}>${esc(c.full_name || c.email)}</option>`).join('')}</select></div>
       <div class="field"><label for="n-a">Animal</label><select class="inp" id="n-a" name="animal_id"></select><span class="hint" id="n-a-hint"></span></div>
-      <div class="row2"><div class="field"><label for="n-d">Date</label><input class="inp" id="n-d" type="date" name="date" required value="${localDate(new Date(Date.now() + 864e5).toISOString())}"></div>
+      <div class="row2"><div class="field"><label for="n-d">Date</label><input class="inp" id="n-d" type="date" name="date" required value="${date || localDate(new Date(Date.now() + 864e5).toISOString())}"></div>
       <div class="field"><label for="n-t">Heure</label><input class="inp" id="n-t" type="time" name="time" required value="09:00"></div></div>
       <div class="row2"><div class="field"><label for="n-du">Durée</label><select class="inp" id="n-du" name="duration_min">${[30, 45, 60, 75, 90, 120].map((x) => `<option ${x === 60 ? 'selected' : ''} value="${x}">${x} min</option>`).join('')}</select></div>
       <div class="field"><label for="n-l">Lieu</label><input class="inp" id="n-l" name="location"></div></div>
@@ -266,7 +332,7 @@
   }
 
   document.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-confirm],[data-refuse],[data-done],[data-new],[data-new-client],[data-afilter],[data-client],[data-animal-file],[data-add-doc],[data-del-doc],[data-open-doc]');
+    const t = e.target.closest('[data-confirm],[data-refuse],[data-done],[data-new],[data-new-client],[data-afilter],[data-aview],[data-cmode],[data-cnav],[data-cmonth],[data-cev],[data-cday],[data-client],[data-animal-file],[data-add-doc],[data-del-doc],[data-open-doc]');
     if (!t) return;
     const d = t.dataset; const find = (id) => rdvs.find((r) => r.id === id);
     if (d.openDoc) return openDocument(docs.find((x) => x.id === d.openDoc));
@@ -282,6 +348,19 @@
     else if (d.done) doneModal(find(d.done));
     else if (d.new !== undefined) newModal();
     else if (d.newClient !== undefined) newClientModal();
+    else if (d.aview) { aview = d.aview; memo('agenda-vue', aview); render(); }
+    else if (d.cmode) { cmode = d.cmode; memo('agenda-echelle', cmode); render(); }
+    else if (d.cnav) {
+      const step = cmode === 'annee' ? 12 : 1;
+      if (d.cnav === 'today') { cursor = new Date(); cursor.setDate(1); } else cursor.setMonth(cursor.getMonth() + (d.cnav === 'prev' ? -step : step));
+      render();
+    }
+    else if (d.cmonth) { const [y, mo] = d.cmonth.split('-').map(Number); cursor = new Date(y, mo - 1, 1); cmode = 'mois'; memo('agenda-echelle', cmode); render(); }
+    else if (d.cev) {
+      const r = find(d.cev);
+      if (r.status === 'done') doneModal(r); else confirmModal(r);
+    }
+    else if (d.cday) newModal(null, d.cday);
     else if (d.afilter) { afilter = d.afilter; render(); }
     else if (d.client) clientModal(clients.find((c) => c.id === d.client));
   });
@@ -300,7 +379,7 @@
     b.onclick = () => {
       const m = openModal('Importer les données du Mac', `
         <p style="margin-top:0">Envoie dans l'espace en ligne les clients, animaux, dossiers privés, rendez-vous et fiches de consultation de l'espace local de ce Mac.</p>
-        <p class="hint">Peut être relancé sans créer de doublons : seuls les nouveaux éléments (par exemple une nouvelle fiche rangée dans Consultation/) sont envoyés.</p>
+        <p class="hint">Peut être relancé sans créer de doublons : seuls les nouveaux éléments sont envoyés.</p>
         <p id="impEtat" class="hint" style="color:var(--brown-dark)"></p>`,
       async () => {
         const etat = $('#impEtat', m.form);

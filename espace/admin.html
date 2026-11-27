@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/espace.css?v=202611271005">
+  <link rel="stylesheet" href="css/espace.css?v=202611271009">
 </head>
 <body>
   <header class="e-header">
@@ -35,14 +35,21 @@
     <section data-panel="agenda" hidden>
       <div class="card">
         <div class="card-head"><h2>Agenda</h2>
-          <div class="filters">
+          <div class="view-toggle" role="group" aria-label="Affichage de l'agenda">
+            <button type="button" data-aview="cal" aria-pressed="true">Calendrier</button>
+            <button type="button" data-aview="list" aria-pressed="false">Liste</button>
+          </div>
+          <button class="btn btn-primary btn-sm" data-new>Nouveau rendez-vous</button>
+        </div>
+        <div id="agendaCal"></div>
+        <div id="agendaListWrap" hidden>
+          <div class="filters" style="margin-bottom:12px">
             <button class="chip" data-afilter="upcoming" aria-pressed="true">À venir</button>
             <button class="chip" data-afilter="past" aria-pressed="false">Passés</button>
             <button class="chip" data-afilter="cancelled" aria-pressed="false">Annulés</button>
           </div>
-          <button class="btn btn-primary btn-sm" data-new>Nouveau rendez-vous</button>
+          <div id="agendaList"></div>
         </div>
-        <div id="agendaList"></div>
       </div>
     </section>
 
@@ -57,9 +64,9 @@
   <footer class="e-footer">Espace réservé à Alexane Thomas.</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="js/config.js?v=202611271005"></script>
-  <script src="js/api.js?v=202611271005"></script>
-  <script src="js/ui.js?v=202611271005"></script>
-  <script src="js/admin.js?v=202611271005"></script>
+  <script src="js/config.js?v=202611271009"></script>
+  <script src="js/api.js?v=202611271009"></script>
+  <script src="js/ui.js?v=202611271009"></script>
+  <script src="js/admin.js?v=202611271009"></script>
 </body>
 </html>
