@@ -6,15 +6,17 @@ document.addEventListener('DOMContentLoaded', function () {
   initAccountLinks();
 });
 
-// Les boutons « Mon espace » pointent vers site_alexane/Espace client (href="../Espace%20client/connexion.html"),
-// qui fonctionne quand npm start sert tout le dossier site_alexane.
-// Page ouverte directement depuis le fichier : on passe par le serveur local (port 8000).
+// Les boutons « Mon espace » pointent vers espace/connexion.html (version publiée, reliée à Supabase).
+// Sur le Mac d'Alexis (serveur local ou fichier ouvert directement), ils ouvrent l'espace de travail
+// local « Espace client » (vrais dossiers Consultation/, génération des fiches).
 function initAccountLinks() {
-  if (location.protocol !== 'file:') {
+  var local = ['localhost', '127.0.0.1', '[::1]'].indexOf(location.hostname) !== -1;
+  if (location.protocol !== 'file:' && !local) {
     return;
   }
+  var cible = local ? '../Espace%20client/connexion.html' : 'http://localhost:8000/Espace%20client/connexion.html';
   document.querySelectorAll('a.nav-account, a.btn-account').forEach(function (a) {
-    a.href = 'http://localhost:8000/Espace%20client/connexion.html';
+    a.href = cible;
   });
 }
 

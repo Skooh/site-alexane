@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des rendez-vous · Alexane Thomas</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/espace.css">
+</head>
+<body>
+  <header class="e-header">
+    <div class="e-header-inner">
+      <a class="brand" id="siteLink" href="#"><span>🐾</span><div><span>Alexane Thomas</span><small>Gestion</small></div></a>
+      <div class="grow"></div>
+      <span class="who" id="who"></span>
+      <button class="btn btn-secondary btn-sm" id="logout">Déconnexion</button>
+    </div>
+    <nav class="e-tabs" role="tablist" aria-label="Sections">
+      <button class="e-tab" role="tab" data-tab="demandes">Demandes <span class="count" id="reqCount" hidden></span></button>
+      <button class="e-tab" role="tab" data-tab="agenda">Agenda</button>
+      <button class="e-tab" role="tab" data-tab="clients">Clients</button>
+    </nav>
+  </header>
+
+  <main>
+    <section data-panel="demandes" hidden>
+      <div class="card">
+        <div class="card-head"><h2>Demandes à traiter</h2><button class="btn btn-primary btn-sm" data-new>Nouveau rendez-vous</button></div>
+        <div id="reqList"></div>
+      </div>
+    </section>
+
+    <section data-panel="agenda" hidden>
+      <div class="card">
+        <div class="card-head"><h2>Agenda</h2>
+          <div class="filters">
+            <button class="chip" data-afilter="upcoming" aria-pressed="true">À venir</button>
+            <button class="chip" data-afilter="past" aria-pressed="false">Passés</button>
+            <button class="chip" data-afilter="cancelled" aria-pressed="false">Annulés</button>
+          </div>
+          <button class="btn btn-primary btn-sm" data-new>Nouveau rendez-vous</button>
+        </div>
+        <div id="agendaList"></div>
+      </div>
+    </section>
+
+    <section data-panel="clients" hidden>
+      <div class="card">
+        <div class="card-head"><h2>Clients</h2><input class="inp" id="clientSearch" type="search" placeholder="Rechercher un client ou un animal…" style="max-width:300px" aria-label="Rechercher"><button class="btn btn-primary btn-sm" data-new-client>Ajouter un client</button></div>
+        <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Client</th><th>Téléphone</th><th>Animaux</th><th>Prochain RDV</th></tr></thead><tbody id="clientRows"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="e-footer">Espace réservé à Alexane Thomas.</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

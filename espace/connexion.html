@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion à l'espace client · Alexane Thomas</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/espace.css">
+</head>
+<body>
+  <header class="e-header">
+    <div class="e-header-inner">
+      <a class="brand" id="siteLink" href="#"><span>🐾</span><div><span>Alexane Thomas</span><small>Espace client</small></div></a>
+      <div class="grow"></div>
+      <a class="who" id="siteLink2" href="#">← Retour au site</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="auth">
+      <div class="card">
+        <h1 id="title">Mon espace</h1>
+        <p class="sub" id="subtitle">Suivez vos rendez-vous et les informations de vos animaux.</p>
+
+        <div class="seg" role="tablist" id="seg">
+          <button type="button" role="tab" data-mode="login" aria-selected="true">Se connecter</button>
+          <button type="button" role="tab" data-mode="signup" aria-selected="false">Créer un compte</button>
+        </div>
+
+        <div class="msg" id="msg" hidden></div>
+
+        <form id="loginForm" novalidate>
+          <div class="field"><label for="l-email">Email</label><input class="inp" id="l-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="l-pw">Mot de passe</label><input class="inp" id="l-pw" name="password" type="password" autocomplete="current-password" required></div>
+          <button class="btn btn-primary" style="width:100%">Se connecter</button>
+          <p style="text-align:center;margin:14px 0 0"><button type="button" class="link-btn" id="forgotBtn">Mot de passe oublié ?</button></p>
+        </form>
+
+        <form id="signupForm" hidden novalidate>
+          <div class="field"><label for="s-name">Nom et prénom *</label><input class="inp" id="s-name" name="full_name" autocomplete="name" required></div>
+          <div class="field"><label for="s-email">Email *</label><input class="inp" id="s-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="s-phone">Téléphone</label><input class="inp" id="s-phone" name="phone" type="tel" autocomplete="tel"><span class="hint">Pour vous joindre la veille du rendez-vous.</span></div>
+          <div class="field"><label for="s-pw">Mot de passe *</label><input class="inp" id="s-pw" name="password" type="password" autocomplete="new-password" minlength="8" required><span class="hint">8 caractères minimum.</span></div>
+          <label style="display:flex;gap:8px;font-size:13px;margin-bottom:16px;align-items:flex-start"><input type="checkbox" name="consent" required style="margin-top:3px"> J'accepte que mes coordonnées et celles de mes animaux soient conservées pour le suivi de mes rendez-vous.</label>
+          <button class="btn btn-primary" style="width:100%">Créer mon compte</button>
+        </form>
+
+        <form id="forgotForm" hidden novalidate>
+          <p style="margin-top:0">Indiquez votre email : vous recevrez un lien pour choisir un nouveau mot de passe.</p>
+          <div class="field"><label for="f-email">Email</label><input class="inp" id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <button class="btn btn-primary" style="width:100%">Envoyer le lien</button>
+          <p style="text-align:center;margin:14px 0 0"><button type="button" class="link-btn" data-back>Retour à la connexion</button></p>
+        </form>
+
+        <form id="newPwForm" hidden novalidate>
+          <div class="field"><label for="n-pw">Nouveau mot de passe</label><input class="inp" id="n-pw" name="password" type="password" autocomplete="new-password" minlength="8" required></div>
+          <button class="btn btn-primary" style="width:100%">Enregistrer</button>
+        </form>
+
+        <div class="demo-box" id="demoBox" hidden>
+          <b>Mode local :</b> aucun vrai compte n'est créé. Entrer en tant que :
+          <div class="btns" id="demoBtns"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="e-footer">Besoin d'aide ? <span id="contactLine"></span></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    const C = window.ESPACE_CONFIG;
+    $('#siteLink').href = $('#siteLink2').href = C.SITE_URL;
+    $('#contactLine').innerHTML = `<a href="tel:${esc(C.TELEPHONE.replace(/\s/g, ''))}">${esc(C.TELEPHONE)}</a> · <a href="mailto:${esc(C.EMAIL)}">${esc(C.EMAIL)}</a>`;
+    demoBanner();
+    const msg = $('#msg');
+    const forms = { login: $('#loginForm'), signup: $('#signupForm'), forgot: $('#forgotForm'), newpw: $('#newPwForm') };
+
+    // Inscriptions fermées en ligne (config.js) : seuls les comptes créés par Alexis/Alexane dans Supabase se connectent
+    const cfgE = window.ESPACE_CONFIG || {};
+    const fermees = !API.demo && !cfgE.INSCRIPTIONS_OUVERTES;
+    if (fermees) {
+      $('#subtitle').textContent = 'Espace réservé. Connectez-vous avec le compte créé pour vous.';
+      $('#forgotBtn').parentElement.innerHTML = `<span class="hint">Mot de passe oublié ? Contactez Alexane${cfgE.TELEPHONE ? ' au ' + cfgE.TELEPHONE : ''}.</span>`;
+    }
+
+    function mode(m) {
+      if (fermees && (m === 'signup' || m === 'forgot')) m = 'login';
+      Object.entries(forms).forEach(([k, f]) => { f.hidden = k !== m; });
+      $('#seg').hidden = fermees || !(m === 'login' || m === 'signup');
+      $$('#seg button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.mode === m)));
+      $('#title').textContent = { login: 'Mon espace', signup: 'Créer mon compte', forgot: 'Mot de passe oublié', newpw: 'Nouveau mot de passe' }[m];
+      showMsg(msg, '');
+      const first = $('input', forms[m]); if (first) first.focus();
+    }
+    $$('#seg button').forEach((b) => b.addEventListener('click', () => mode(b.dataset.mode)));
+    if (!fermees) $('#forgotBtn').onclick = () => mode('forgot');
+    $$('[data-back]').forEach((b) => b.onclick = () => mode('login'));
+    if (location.hash === '#inscription') mode('signup');
+    if (fermees) $('#seg').hidden = true;
+
+    async function go() {
+      const me = await API.me();
+      if (me) location.replace(me.is_admin ? 'admin.html' : 'index.html');
+    }
+
+    // Lien "mot de passe oublié" reçu par email
+    let recovering = /type=recovery/.test(location.hash);
+    API.onRecovery(() => { recovering = true; mode('newpw'); });
+    if (recovering) mode('newpw'); else await go();
+
+    function check(form) {
+      if (!form.checkValidity()) {
+        const bad = $(':invalid', form);
+        const label = bad.type === 'checkbox' ? 'Merci de cocher la case de consentement.' : `Vérifiez le champ « ${$(`label[for="${bad.id}"]`)?.textContent.replace(' *', '') || bad.name} ».`;
+        showMsg(msg, label); bad.focus(); return false;
+      }
+      return true;
+    }
+    async function run(form, fn) {
+      if (!check(form)) return;
+      const btn = $('button.btn-primary', form); btn.disabled = true; showMsg(msg, '');
+      try { await fn(new FormData(form)); } catch (e) { showMsg(msg, e.message); } finally { btn.disabled = false; }
+    }
+
+    forms.login.addEventListener('submit', (e) => { e.preventDefault(); run(forms.login, async (fd) => { await API.signIn(fd.get('email').trim(), fd.get('password')); await go(); }); });
+    forms.signup.addEventListener('submit', (e) => { e.preventDefault(); run(forms.signup, async (fd) => {
+      const r = await API.signUp({ email: fd.get('email').trim().toLowerCase(), password: fd.get('password'), full_name: fd.get('full_name').trim(), phone: fd.get('phone').trim() });
+      if (r.needsConfirmation) { mode('login'); showMsg(msg, 'Compte créé ! Cliquez sur le lien reçu par email pour l\'activer, puis connectez-vous.', 'ok'); }
+      else await go();
+    }); });
+    forms.forgot.addEventListener('submit', (e) => { e.preventDefault(); run(forms.forgot, async (fd) => { await API.resetPassword(fd.get('email').trim()); mode('login'); showMsg(msg, 'Si un compte existe avec cet email, un lien vient de vous être envoyé.', 'ok'); }); });
+    forms.newpw.addEventListener('submit', (e) => { e.preventDefault(); run(forms.newpw, async (fd) => { await API.updatePassword(fd.get('password')); toast('Mot de passe modifié'); history.replaceState(null, '', location.pathname); await go(); }); });
+
+    if (API.demo && API.strict) {
+      $('#demoBox').hidden = false;
+      const quick = API.quickAccounts().sort((a, b) => b.is_admin - a.is_admin);
+      $('#demoBox').innerHTML = '<b>Mode local.</b> Accès direct, sans mot de passe (uniquement sur cet ordinateur) :'
+        + `<div class="btns">${quick.map((a) => `<button type="button" class="btn ${a.is_admin ? 'btn-primary' : 'btn-secondary'} btn-sm" data-quick="${esc(a.email)}">${esc(a.full_name)}${a.is_admin ? ' (gestion)' : ''}</button>`).join('')}</div>`;
+      $$('[data-quick]').forEach((b) => b.onclick = async () => {
+        try { await API.quickSignIn(b.dataset.quick); await go(); } catch (e) { showMsg(msg, e.message); }
+      });
+    } else if (API.demo) {
+      $('#demoBox').hidden = false;
+      if (location.protocol === 'file:') {
+        $('#demoBox').insertAdjacentHTML('afterbegin', '<p class="msg info" style="margin-top:0">Page ouverte directement depuis le fichier : si la connexion ne tient pas, double-cliquez plutôt sur <b>« Site Alexane »</b> dans le dossier site_alexane.</p>');
+      }
+      const accounts = API.demoAccounts().sort((a, b) => b.is_admin - a.is_admin);
+      $('#demoBtns').innerHTML = accounts.map((a) => `<button type="button" class="btn ${a.is_admin ? 'btn-primary' : 'btn-secondary'} btn-sm" data-demo="${a.id}">${esc(a.full_name)}${a.is_admin ? ' (gestion)' : ''}</button>`).join('');
+      $$('[data-demo]').forEach((b) => b.onclick = async () => { await API.signIn(b.dataset.demo); await go(); });
+    }
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon espace · Alexane Thomas, ostéopathe animalier</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/espace.css">
+</head>
+<body>
+  <header class="e-header">
+    <div class="e-header-inner">
+      <a class="brand" id="siteLink" href="#"><span>🐾</span><div><span>Alexane Thomas</span><small>Espace client</small></div></a>
+      <div class="grow"></div>
+      <span class="who" id="who"></span>
+      <button class="btn btn-secondary btn-sm" id="logout">Déconnexion</button>
+    </div>
+    <nav class="e-tabs" role="tablist" aria-label="Sections de mon espace">
+      <button class="e-tab" role="tab" data-tab="accueil">Accueil</button>
+      <button class="e-tab" role="tab" data-tab="rdv">Mes rendez-vous</button>
+      <button class="e-tab" role="tab" data-tab="animaux">Mes animaux</button>
+      <button class="e-tab" role="tab" data-tab="profil">Mon profil</button>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hello"><h1 id="hello">Bonjour</h1><p>Retrouvez ici vos rendez-vous avec Alexane et les fiches de vos animaux.</p></div>
+
+    <section data-panel="accueil" hidden>
+      <div class="grid">
+        <div class="card next" id="nextCard"></div>
+        <div class="card">
+          <div class="card-head"><h2>Demandes en cours</h2></div>
+          <div id="pendingList"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Mes animaux</h2><button class="btn btn-secondary btn-sm" data-goto="animaux">Voir tout</button></div>
+          <div id="animalsMini"></div>
+        </div>
+      </div>
+    </section>
+
+    <section data-panel="rdv" hidden>
+      <div class="card">
+        <div class="card-head"><h2>Mes rendez-vous</h2><button class="btn btn-primary btn-sm" data-request>Demander un rendez-vous</button></div>
+        <div class="filters" style="margin-bottom:10px">
+          <button class="chip" data-filter="upcoming" aria-pressed="true">À venir</button>
+          <button class="chip" data-filter="past" aria-pressed="false">Passés</button>
+          <button class="chip" data-filter="all" aria-pressed="false">Tous</button>
+        </div>
+        <div id="rdvList"></div>
+      </div>
+    </section>
+
+    <section data-panel="animaux" hidden>
+      <div class="card-head"><h2 style="font-size:26px">Mes animaux</h2><button class="btn btn-primary btn-sm" data-add-animal>Ajouter un animal</button></div>
+      <div class="animals" id="animalsList"></div>
+    </section>
+
+    <section data-panel="profil" hidden>
+      <div class="grid">
+        <form class="card" id="profileForm">
+          <h2>Mes coordonnées</h2>
+          <div class="msg" hidden></div>
+          <div class="field"><label for="p-name">Nom et prénom</label><input class="inp" id="p-name" name="full_name" required autocomplete="name"></div>
+          <div class="field"><label for="p-email">Email</label><input class="inp" id="p-email" disabled></div>
+          <div class="field"><label for="p-phone">Téléphone</label><input class="inp" id="p-phone" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="field"><label for="p-addr">Adresse habituelle des consultations</label><textarea class="inp" id="p-addr" name="address" placeholder="Écurie, ferme, domicile…"></textarea></div>
+          <div class="form-actions"><button class="btn btn-primary">Enregistrer</button></div>
+        </form>
+        <form class="card" id="pwForm">
+          <h2>Mot de passe</h2>
+          <div class="msg" hidden></div>
+          <div class="field"><label for="pw1">Nouveau mot de passe</label><input class="inp" id="pw1" name="a" type="password" minlength="8" required autocomplete="new-password"></div>
+          <div class="field"><label for="pw2">Confirmer</label><input class="inp" id="pw2" name="b" type="password" minlength="8" required autocomplete="new-password"></div>
+          <div class="form-actions"><button class="btn btn-primary">Changer le mot de passe</button></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="e-footer">Une question, une urgence ? Appelez Alexane : <span id="contactLine"></span></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/client.js"></script>
+</body>
+</html>
