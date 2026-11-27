@@ -60,8 +60,10 @@ function initZoneMap() {
     dragging: !L.Browser.mobile
   }).setView(BAYONNE, 9);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  // Fond de carte OpenStreetMap (gratuit, sans clé). Les couleurs sont adoucies en CSS
+  // (#zone-map .leaflet-tile-pane) pour rester dans les tons du site.
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 18
   }).addTo(map);
 
