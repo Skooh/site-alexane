@@ -112,7 +112,7 @@
       if (d !== day) { day = d; html += `<h3 class="day-title">${esc(d.charAt(0).toUpperCase() + d.slice(1))}</h3>`; }
       const acts = r.status === 'confirmed'
         ? `<button class="btn btn-secondary btn-sm" data-confirm="${r.id}">Modifier</button><button class="btn btn-primary btn-sm" data-done="${r.id}">Effectué</button><button class="btn btn-danger btn-sm" data-refuse="${r.id}">Annuler</button>`
-        : r.status === 'done' ? `${docs.filter((x) => x.appointment_id === r.id).map((x) => `<button class="btn btn-secondary btn-sm" data-open-doc="${x.id}">📄 Fiche</button>`).join('')}<button class="btn btn-secondary btn-sm" data-done="${r.id}">Compte rendu</button>` : '';
+        : r.status === 'done' ? (ficheDe(r) ? `<button class="btn btn-secondary btn-sm" data-done="${r.id}">📄 Voir la fiche</button>` : `<button class="btn btn-secondary btn-sm" data-done="${r.id}">Compte rendu</button>`) : '';
       html += line(r, acts);
     });
     $('#agendaList').innerHTML = html || '<p class="empty">Rien à afficher.</p>';
@@ -150,9 +150,36 @@
     async (fd) => { await API.updateAppointment(r.id, { status: 'cancelled', admin_note: fd.get('admin_note').trim() || null }); toast('Rendez-vous annulé'); await load(); }, 'Confirmer l\'annulation');
   }
 
+  // Fiche de consultation liée à un rendez-vous (par le rendez-vous, sinon même animal et même date)
+  const ficheDe = (r) => docs.find((x) => x.appointment_id === r.id && x.kind === 'fiche')
+    || docs.find((x) => x.kind === 'fiche' && x.animal_id === r.animal_id && x.doc_date && x.doc_date === localDate(r.starts_at));
+
+  // Consultation effectuée avec sa fiche : la fiche s'affiche dans une petite visionneuse
+  async function ficheModal(r, doc) {
+    const m = openModal('Consultation effectuée', `
+      <p style="margin-top:0">${esc(clientName(r))} · ${esc(r.animal?.name || '')}, ${esc(rdvWhen(r))}</p>
+      <div class="pdf-view" id="fvView"><p class="hint">Chargement de la fiche…</p></div>
+      ${r.admin_note ? `<p class="hint" style="margin:10px 0 0">💬 ${esc(r.admin_note)}</p>` : ''}
+      <div class="form-actions" style="justify-content:flex-start;margin-top:14px">
+        <button type="button" class="btn btn-primary btn-sm" id="fvAdd">Ajouter des informations</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="fvOpen">Ouvrir en grand</button></div>`, null);
+    m.form.classList.add('modal-pdf');
+    $('#fvAdd', m.form).onclick = () => { m.close(); const a = animals.find((x) => x.id === r.animal_id); if (a) animalFileModal(a); };
+    $('#fvOpen', m.form).onclick = () => openDocument(doc);
+    try {
+      const url = await API.documentUrl(doc);
+      const image = /\.(jpe?g|png|webp|heic|gif)$/i.test(doc.file_path || doc.file_name || doc.file || doc.url || '');
+      $('#fvView', m.form).innerHTML = image
+        ? `<img src="${esc(url)}" alt="${esc(doc.title)}">`
+        : `<iframe src="${esc(url)}#navpanes=0&view=FitH" title="${esc(doc.title)}"></iframe>`;
+    } catch (e) { $('#fvView', m.form).innerHTML = `<p class="msg">${esc(e.message)}</p>`; }
+  }
+
   function doneModal(r) {
+    const fiche = r.status === 'done' && ficheDe(r);
+    if (fiche) return ficheModal(r, fiche);
     openModal('Consultation effectuée', `
-      <p style="margin-top:0">${esc(clientName(r))} · ${esc(r.animal?.name || '')}, ${esc(fmtFull(r.starts_at))}</p>
+      <p style="margin-top:0">${esc(clientName(r))} · ${esc(r.animal?.name || '')}, ${esc(rdvWhen(r))}</p>
       <div class="field"><label for="d-n">Compte rendu / conseils pour le client</label><textarea class="inp" id="d-n" name="admin_note" style="min-height:140px" placeholder="Zones travaillées, repos conseillé, prochaine visite…">${esc(r.admin_note)}</textarea><span class="hint">Visible par le client dans son espace.</span></div>
       ${r.animal_id ? `<div class="field"><label for="d-f">Fiche de consultation (PDF)</label><input class="inp" id="d-f" type="file" name="file" accept="application/pdf,image/*"><span class="hint">Facultatif. Rangée dans le dossier de l'animal, visible par le client.</span></div>` : ''}`,
     async (fd) => {
