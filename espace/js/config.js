@@ -11,7 +11,7 @@ window.ESPACE_CONFIG = {
 
   // Inscription des clients depuis le site : fermée tant que l'envoi d'emails n'est pas branché
   // (les comptes sont créés dans Supabase > Authentication > Users > Add user). Mettre true pour ouvrir.
-  INSCRIPTIONS_OUVERTES: false,
+  INSCRIPTIONS_OUVERTES: true,
 
   // Coordonnées affichées aux clients
   PRATICIENNE: 'Alexane Thomas',
